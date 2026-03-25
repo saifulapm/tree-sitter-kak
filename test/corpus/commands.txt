@@ -184,3 +184,35 @@ my-command -docstring 'say hello'
     (switch
       (single_quoted_string
         (string_content)))))
+
+==================
+Line continuation
+==================
+
+info \
+  hello
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word))))
+
+==================
+Comment after command
+==================
+
+info hello # this is a comment
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word)))
+  (comment))

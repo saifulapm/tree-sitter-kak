@@ -5,13 +5,11 @@
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tree-sitter/tree-sitter-kakscript.git"
+    "url": "git+https://github.com/saiful/kakscript-tree-sitter.git"
   },
-  "funding": "",
   "license": "MIT",
   "author": {
-    "name": "Saiful",
-    "url": ""
+    "name": "Saiful"
   },
   "main": "bindings/node",
   "types": "bindings/node",

@@ -406,13 +406,9 @@ module.exports = grammar({
     expansion: $ => seq(
       $._expansion_percent,
       field('type', $.expansion_type),
-      choice(
-        seq(
-          $._expansion_delim_start,
-          optional(field('content', alias($._bare_string_content, $.string_content))),
-          choice($._percent_string_end, $._nonbalanced_string_end),
-        ),
-      ),
+      $._expansion_delim_start,
+      optional(field('content', alias($._bare_string_content, $.string_content))),
+      choice($._percent_string_end, $._nonbalanced_string_end),
     ),
 
     expansion_type: $ => token.immediate(choice('val', 'opt', 'sh', 'reg', 'arg', 'file', 'exp')),

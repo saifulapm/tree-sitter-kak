@@ -60,9 +60,16 @@ void tree_sitter_kakscript_external_scanner_destroy(void *payload) {
 unsigned tree_sitter_kakscript_external_scanner_serialize(void *payload, char *buffer) {
     Scanner *s = (Scanner *)payload;
     unsigned size = 0;
+
+    if (1 + s->stack_size * sizeof(int32_t) > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {
+        return 0;
+    }
+
     buffer[size++] = (char)s->stack_size;
     for (uint8_t i = 0; i < s->stack_size; i++) {
-        buffer[size++] = (char)s->delimiter_stack[i];
+        // Serialize full int32_t to avoid truncation of non-ASCII delimiters
+        memcpy(&buffer[size], &s->delimiter_stack[i], sizeof(int32_t));
+        size += sizeof(int32_t);
     }
     return size;
 }
@@ -73,8 +80,9 @@ void tree_sitter_kakscript_external_scanner_deserialize(void *payload, const cha
     if (length == 0) return;
     unsigned pos = 0;
     s->stack_size = (uint8_t)buffer[pos++];
-    for (uint8_t i = 0; i < s->stack_size && pos < length; i++) {
-        s->delimiter_stack[i] = (int32_t)buffer[pos++];
+    for (uint8_t i = 0; i < s->stack_size && pos + sizeof(int32_t) <= length; i++) {
+        memcpy(&s->delimiter_stack[i], &buffer[pos], sizeof(int32_t));
+        pos += sizeof(int32_t);
     }
 }
 
@@ -231,10 +239,8 @@ static bool scan_percent_start(Scanner *s, TSLexer *lexer, const bool *valid_sym
 
     if (is_balanced_open(next)) {
         if (valid_symbols[PERCENT_STRING_START]) {
-            int32_t close = closing_delimiter_for(next);
-            if (s->stack_size < MAX_DEPTH) {
-                s->delimiter_stack[s->stack_size++] = close;
-            }
+            if (s->stack_size >= MAX_DEPTH) return false;
+            s->delimiter_stack[s->stack_size++] = closing_delimiter_for(next);
             advance_scanner(lexer); // consume opening delimiter
             lexer->mark_end(lexer);
             lexer->result_symbol = PERCENT_STRING_START;
@@ -246,9 +252,8 @@ static bool scan_percent_start(Scanner *s, TSLexer *lexer, const bool *valid_sym
     // Non-balanced: any non-alphanumeric, non-whitespace char
     if (next != ' ' && next != '\t' && next != '\n' && next != '\r') {
         if (valid_symbols[NONBALANCED_STRING_START]) {
-            if (s->stack_size < MAX_DEPTH) {
-                s->delimiter_stack[s->stack_size++] = next;
-            }
+            if (s->stack_size >= MAX_DEPTH) return false;
+            s->delimiter_stack[s->stack_size++] = next;
             advance_scanner(lexer); // consume delimiter
             lexer->mark_end(lexer);
             lexer->result_symbol = NONBALANCED_STRING_START;
@@ -265,10 +270,8 @@ static bool scan_expansion_delim_start(Scanner *s, TSLexer *lexer) {
     int32_t c = lexer->lookahead;
 
     if (is_balanced_open(c)) {
-        int32_t close = closing_delimiter_for(c);
-        if (s->stack_size < MAX_DEPTH) {
-            s->delimiter_stack[s->stack_size++] = close;
-        }
+        if (s->stack_size >= MAX_DEPTH) return false;
+        s->delimiter_stack[s->stack_size++] = closing_delimiter_for(c);
         advance_scanner(lexer);
         lexer->mark_end(lexer);
         lexer->result_symbol = EXPANSION_DELIM_START;
@@ -278,9 +281,8 @@ static bool scan_expansion_delim_start(Scanner *s, TSLexer *lexer) {
     // Non-balanced: any non-alphanumeric, non-whitespace char
     if (c != ' ' && c != '\t' && c != '\n' && c != '\r' && c != '%' && !lexer->eof(lexer)
         && !((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))) {
-        if (s->stack_size < MAX_DEPTH) {
-            s->delimiter_stack[s->stack_size++] = c;
-        }
+        if (s->stack_size >= MAX_DEPTH) return false;
+        s->delimiter_stack[s->stack_size++] = c;
         advance_scanner(lexer);
         lexer->mark_end(lexer);
         lexer->result_symbol = EXPANSION_DELIM_START;

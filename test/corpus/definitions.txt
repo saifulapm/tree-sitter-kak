@@ -293,3 +293,76 @@ hook global BufOpenFile .* file-detection
     filter: (argument
       (word))
     body: (word)))
+
+==================
+Unalias with expected
+==================
+
+unalias global w write
+
+---
+
+(program
+  (unalias_definition
+    scope: (scope)
+    name: (word)
+    expected: (word)))
+
+==================
+Select command
+==================
+
+select 1.1,1.5
+
+---
+
+(program
+  (select_command
+    (argument
+      (word))))
+
+==================
+Set option with add switch
+==================
+
+set-option -add global my_list item1
+
+---
+
+(program
+  (set_option
+    (switch)
+    scope: (scope)
+    name: (word)
+    (argument
+      (word))))
+
+==================
+Enter user mode with lock
+==================
+
+enter-user-mode -lock my-mode
+
+---
+
+(program
+  (enter_user_mode
+    (switch)
+    name: (word)))
+
+==================
+Source with multiple arguments
+==================
+
+source /path/to/file.kak arg1 arg2
+
+---
+
+(program
+  (source_command
+    filename: (argument
+      (word))
+    (argument
+      (word))
+    (argument
+      (word))))
