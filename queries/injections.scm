@@ -1,3 +1,11 @@
+; Inject bash into -shell-script-candidates and -shell-script switch values
+((switch
+  (percent_string
+    content: (string_content) @injection.content)) @_sw
+  (#match? @_sw "^-shell-script")
+  (#set! injection.language "bash")
+  (#set! injection.include-children))
+
 ; Inject bash into %sh{...} expansion content
 ((expansion
   type: (expansion_type) @_type
