@@ -84,6 +84,10 @@
       "required": true,
       "types": [
         {
+          "type": "concatenation",
+          "named": true
+        },
+        {
           "type": "double_quoted_string",
           "named": true
         },
@@ -160,6 +164,37 @@
     "named": true,
     "extra": true,
     "fields": {}
+  },
+  {
+    "type": "concatenation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "double_quoted_string",
+          "named": true
+        },
+        {
+          "type": "expansion",
+          "named": true
+        },
+        {
+          "type": "percent_string",
+          "named": true
+        },
+        {
+          "type": "single_quoted_string",
+          "named": true
+        },
+        {
+          "type": "word",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "declare_option",

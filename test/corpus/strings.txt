@@ -346,3 +346,58 @@ info "hello %val{name} world"
           type: (expansion_type)
           content: (string_content))
         (string_content)))))
+
+==================
+Concatenation of single-quoted string and expansion
+==================
+
+echo 'prefix'%val{name}'suffix'
+
+---
+
+(program
+  (echo_command
+    (argument
+      (concatenation
+        (single_quoted_string
+          (string_content))
+        (expansion
+          type: (expansion_type)
+          content: (string_content))
+        (single_quoted_string
+          (string_content))))))
+
+==================
+Concatenation of word and expansion
+==================
+
+echo file_%opt{filetype}.txt
+
+---
+
+(program
+  (echo_command
+    (argument
+      (concatenation
+        (word)
+        (expansion
+          type: (expansion_type)
+          content: (string_content))
+        (word)))))
+
+==================
+Concatenation of two strings
+==================
+
+echo 'hello'"world"
+
+---
+
+(program
+  (echo_command
+    (argument
+      (concatenation
+        (single_quoted_string
+          (string_content))
+        (double_quoted_string
+          (string_content))))))

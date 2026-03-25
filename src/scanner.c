@@ -328,6 +328,18 @@ bool tree_sitter_kakscript_external_scanner_scan(void *payload, TSLexer *lexer, 
         return false;
     }
 
+    // CONCAT: zero-width token between adjacent tokens (no whitespace).
+    // Emitted when the next char can start a new token (string, expansion, word)
+    // and there's no whitespace between current position and that char.
+    if (valid_symbols[CONCAT]) {
+        int32_t c = lexer->lookahead;
+        if (!(c == 0 || c == ' ' || c == '\t' || c == '\n' || c == '\r' ||
+              c == ';' || c == '#' || lexer->eof(lexer))) {
+            lexer->result_symbol = CONCAT;
+            return true;
+        }
+    }
+
     // Inside a double-quoted string, scan content segments or expansion start
     if (valid_symbols[STRING_CONTENT_DOUBLE]) {
         if (scan_double_string_content(lexer, valid_symbols)) return true;

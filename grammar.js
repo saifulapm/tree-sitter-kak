@@ -356,10 +356,28 @@ module.exports = grammar({
     _user_command_name: $ => /[a-zA-Z_][a-zA-Z0-9_-]*/,
 
     argument: $ => choice(
+      $.concatenation,
       $.expansion,
       $.single_quoted_string,
       $.percent_string,
       $.double_quoted_string,
+      $.word,
+    ),
+
+    // Adjacent tokens without whitespace: "prefix"%val{name}"suffix"
+    concatenation: $ => prec(-1, seq(
+      $._concat_part,
+      repeat1(seq(
+        $._concat,
+        $._concat_part,
+      )),
+    )),
+
+    _concat_part: $ => choice(
+      $.expansion,
+      $.single_quoted_string,
+      $.double_quoted_string,
+      $.percent_string,
       $.word,
     ),
 
