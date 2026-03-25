@@ -1,0 +1,62 @@
+==================
+Single quoted string
+==================
+
+echo 'hello world'
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (single_quoted_string
+        (string_content)))))
+
+==================
+Single quoted string with escaped quote
+==================
+
+echo 'it''s fine'
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (single_quoted_string
+        (string_content)))))
+
+==================
+Empty single quoted string
+==================
+
+echo ''
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (single_quoted_string))))
+
+==================
+Single quoted string preserves percent
+==================
+
+echo '%val{session}'
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (single_quoted_string
+        (string_content)))))

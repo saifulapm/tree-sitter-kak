@@ -39,9 +39,23 @@ module.exports = grammar({
 
     command_name: $ => $.word,
 
-    argument: $ => $.word,
+    argument: $ => choice(
+      $.single_quoted_string,
+      $.word,
+    ),
 
-    word: $ => /[^\s;#]+/,
+    single_quoted_string: $ => seq(
+      "'",
+      optional($.string_content),
+      "'",
+    ),
+
+    string_content: $ => repeat1(choice(
+      /[^']+/,
+      "''",
+    )),
+
+    word: $ => /[^\s;#']+/,
 
     comment: $ => seq('#', /.*/),
 
