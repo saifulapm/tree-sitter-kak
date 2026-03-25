@@ -54,19 +54,7 @@ hx --grammar fetch
 hx --grammar build
 ```
 
-Copy the query files from the fetched grammar source to Helix's runtime:
-
-```sh
-GRAMMAR_DIR=$(find ~/.cache/helix -path "*/tree-sitter-kakscript/queries" 2>/dev/null | head -1)
-mkdir -p ~/.config/helix/runtime/queries/kakscript
-cp "$GRAMMAR_DIR"/*.scm ~/.config/helix/runtime/queries/kakscript/
-```
-
-> **Note:** Helix doesn't auto-discover queries from grammar repos. They must be manually copied to the runtime directory. If the path above doesn't work, clone the repo and copy directly:
-> ```sh
-> git clone https://github.com/saifulapm/tree-sitter-kakscript /tmp/tree-sitter-kakscript
-> cp /tmp/tree-sitter-kakscript/queries/*.scm ~/.config/helix/runtime/queries/kakscript/
-> ```
+Helix picks up query files (`highlights.scm`, `injections.scm`, etc.) automatically from the grammar's `queries/` directory.
 
 ### Kakoune (kak-tree-sitter)
 
