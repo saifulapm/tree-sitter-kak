@@ -1,11 +1,11 @@
 {
-  "name": "tree-sitter-kakscript",
+  "name": "tree-sitter-kak",
   "version": "0.1.0",
-  "description": "Kakscript grammar for tree-sitter",
+  "description": "Kak grammar for tree-sitter",
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saifulapm/tree-sitter-kakscript.git"
+    "url": "git+https://github.com/saifulapm/tree-sitter-kak.git"
   },
   "license": "MIT",
   "author": {
@@ -17,7 +17,7 @@
     "incremental",
     "parsing",
     "tree-sitter",
-    "kakscript"
+    "kak"
   ],
   "files": [
     "grammar.js",

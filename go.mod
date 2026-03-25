@@ -1,4 +1,4 @@
-module github.com/tree-sitter/tree-sitter-kakscript
+module github.com/saifulapm/tree-sitter-kak
 
 go 1.22
 

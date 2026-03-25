@@ -42,7 +42,7 @@
 (double_quoted_string) @string
 
 ; Percent strings — only highlight as string when NOT used as a block body
-; (block bodies get kakscript self-injection instead)
+; (block bodies get kak self-injection instead)
 (argument (percent_string) @string)
 (switch (percent_string) @string)
 

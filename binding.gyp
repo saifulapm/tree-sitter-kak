@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "tree_sitter_kakscript_binding",
+      "target_name": "tree_sitter_kak_binding",
       "dependencies": [
         "<!(node -p \"require('node-addon-api').targets\"):node_addon_api_except",
       ],
@@ -20,9 +20,10 @@
           "sources+": ["src/scanner.c"],
         }],
         ["OS=='mac'", {
+          "cflags_c": ["-std=c11"],
           "xcode_settings": {
-            "OTHER_CFLAGS": ["-std=c11"],
             "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
+            "GCC_C_LANGUAGE_STANDARD": "c11",
           },
         }],
         ["OS=='linux'", {

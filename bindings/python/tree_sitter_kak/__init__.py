@@ -1,4 +1,4 @@
-"""Kakscript grammar for tree-sitter"""
+"""Kak grammar for tree-sitter"""
 
 from importlib.resources import files as _files
 

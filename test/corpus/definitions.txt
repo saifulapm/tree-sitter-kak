@@ -190,7 +190,7 @@ on-key %{echo hello}
 Remove highlighter
 ==================
 
-remove-highlighter shared/kakscript
+remove-highlighter shared/kak
 
 ---
 

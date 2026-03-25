@@ -2,7 +2,7 @@
 Add highlighter group
 ==================
 
-add-highlighter shared/kakscript group
+add-highlighter shared/kak group
 
 ---
 
@@ -15,7 +15,7 @@ add-highlighter shared/kakscript group
 Add highlighter regex
 ==================
 
-add-highlighter shared/kakscript/code regex '\bdef\b' 0:keyword
+add-highlighter shared/kak/code regex '\bdef\b' 0:keyword
 
 ---
 
@@ -33,7 +33,7 @@ add-highlighter shared/kakscript/code regex '\bdef\b' 0:keyword
 Add highlighter fill
 ==================
 
-add-highlighter shared/kakscript/comment fill comment
+add-highlighter shared/kak/comment fill comment
 
 ---
 

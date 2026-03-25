@@ -48,16 +48,16 @@ static void skip_scanner(TSLexer *lexer) {
 
 // --- Lifecycle ---
 
-void *tree_sitter_kakscript_external_scanner_create() {
+void *tree_sitter_kak_external_scanner_create() {
     Scanner *s = (Scanner *)ts_calloc(1, sizeof(Scanner));
     return s;
 }
 
-void tree_sitter_kakscript_external_scanner_destroy(void *payload) {
+void tree_sitter_kak_external_scanner_destroy(void *payload) {
     ts_free(payload);
 }
 
-unsigned tree_sitter_kakscript_external_scanner_serialize(void *payload, char *buffer) {
+unsigned tree_sitter_kak_external_scanner_serialize(void *payload, char *buffer) {
     Scanner *s = (Scanner *)payload;
     unsigned size = 0;
 
@@ -74,7 +74,7 @@ unsigned tree_sitter_kakscript_external_scanner_serialize(void *payload, char *b
     return size;
 }
 
-void tree_sitter_kakscript_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+void tree_sitter_kak_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
     Scanner *s = (Scanner *)payload;
     s->stack_size = 0;
     if (length == 0) return;
@@ -311,7 +311,7 @@ static bool scan_percent_end(Scanner *s, TSLexer *lexer) {
     return false;
 }
 
-bool tree_sitter_kakscript_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+bool tree_sitter_kak_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
     Scanner *s = (Scanner *)payload;
 
     // Guard against error recovery: if all symbols are valid, bail out

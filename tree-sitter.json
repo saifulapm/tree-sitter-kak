@@ -1,18 +1,18 @@
 {
   "grammars": [
     {
-      "name": "kakscript",
-      "camelcase": "Kakscript",
-      "scope": "source.kakscript",
+      "name": "kak",
+      "camelcase": "Kak",
+      "scope": "source.kak",
       "path": ".",
       "file-types": ["kak", "kakrc"],
-      "injection-regex": "^kakscript$"
+      "injection-regex": "^kak$"
     }
   ],
   "metadata": {
     "version": "0.1.0",
     "license": "MIT",
-    "description": "Kakscript grammar for tree-sitter"
+    "description": "Kak grammar for tree-sitter"
   },
   "bindings": {
     "c": true,

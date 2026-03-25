@@ -1,5 +1,5 @@
 /**
- * @file Kakscript grammar for tree-sitter
+ * @file Kak grammar for tree-sitter
  * @license MIT
  */
 
@@ -7,7 +7,7 @@
 // @ts-check
 
 module.exports = grammar({
-  name: 'kakscript',
+  name: 'kak',
 
   // Order MUST match enum TokenType in scanner.c exactly.
   externals: $ => [

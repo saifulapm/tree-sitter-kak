@@ -1,6 +1,6 @@
-# tree-sitter-kakscript
+# tree-sitter-kak
 
-Kakscript (Kakoune) grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
+Kak (Kakoune) grammar for [tree-sitter](https://github.com/tree-sitter/tree-sitter).
 
 Parses `.kak` and `.kakrc` files used by the [Kakoune](https://kakoune.org/) text editor.
 

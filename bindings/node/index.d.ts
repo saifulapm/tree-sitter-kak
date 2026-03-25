@@ -25,10 +25,10 @@ type NodeInfo =
  *
  * @example
  * import Parser from "tree-sitter";
- * import Kakscript from "tree-sitter-kakscript";
+ * import Kak from "tree-sitter-kak";
  *
  * const parser = new Parser();
- * parser.setLanguage(Kakscript);
+ * parser.setLanguage(Kak);
  */
 declare const binding: {
   /**
