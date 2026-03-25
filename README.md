@@ -68,14 +68,14 @@ rm -rf /tmp/tree-sitter-kakscript
 Add to your `kak-tree-sitter` config (`~/.config/kak-tree-sitter/config.toml`):
 
 ```toml
-[language.kakscript]
+[language.kak]
 remove_default_highlighter = true
 
-[language.kakscript.grammar]
+[language.kak.grammar]
 source.git = { url = "https://github.com/saifulapm/tree-sitter-kakscript", pin = "main" }
 path = "src"
 
-[language.kakscript.queries]
+[language.kak.queries]
 source.git = { url = "https://github.com/saifulapm/tree-sitter-kakscript", pin = "main" }
 path = "queries"
 ```
