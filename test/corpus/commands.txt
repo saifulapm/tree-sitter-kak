@@ -89,3 +89,98 @@ echo world
       (word))
     (argument
       (word))))
+
+==================
+Command with switch
+==================
+
+echo -debug hello
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (switch)
+    (argument
+      (word))))
+
+==================
+Command with switch and value
+==================
+
+my-command -params 1
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (switch)
+    (argument
+      (word))))
+
+==================
+Command with switch terminator
+==================
+
+echo -- -not-a-switch
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (switch_terminator)
+    (argument
+      (word))))
+
+==================
+Multiple switches
+==================
+
+my-command -override -hidden -params 1
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (switch)
+    (switch)
+    (switch)
+    (argument
+      (word))))
+
+==================
+Command name with bang
+==================
+
+write!
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))))
+
+==================
+Switch with string value
+==================
+
+my-command -docstring 'say hello'
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (switch
+      (single_quoted_string
+        (string_content)))))

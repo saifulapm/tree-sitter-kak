@@ -43,13 +43,49 @@ module.exports = grammar({
     ),
 
     _statement: $ => choice(
+      $.try_statement,
       $.command,
     ),
 
     command: $ => seq(
       field('name', $.command_name),
-      repeat($.argument),
+      repeat(choice(
+        $.switch,
+        $.argument,
+      )),
+      optional(seq(
+        $.switch_terminator,
+        repeat($.argument),
+      )),
     ),
+
+    try_statement: $ => prec(1, seq(
+      'try',
+      field('body', $._block),
+      repeat(seq(
+        'catch',
+        field('handler', $._block),
+      )),
+    )),
+
+    _block: $ => choice(
+      $.percent_string,
+      $.single_quoted_string,
+      $.double_quoted_string,
+      $.expansion,
+    ),
+
+    switch: $ => prec.right(seq(
+      token(seq('-', /[a-zA-Z][a-zA-Z0-9_-]*/)),
+      optional(choice(
+        $.single_quoted_string,
+        $.double_quoted_string,
+        $.expansion,
+        $.percent_string,
+      )),
+    )),
+
+    switch_terminator: $ => '--',
 
     command_name: $ => $.word,
 

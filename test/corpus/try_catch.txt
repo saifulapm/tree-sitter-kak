@@ -1,0 +1,59 @@
+==================
+Simple try
+==================
+
+try %{echo hello}
+
+---
+
+(program
+  (try_statement
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Try catch
+==================
+
+try %{command-that-fails} catch %{echo error}
+
+---
+
+(program
+  (try_statement
+    body: (percent_string
+      content: (string_content))
+    handler: (percent_string
+      content: (string_content))))
+
+==================
+Try with multiple catch blocks
+==================
+
+try %{cmd1} catch %{cmd2} catch %{cmd3}
+
+---
+
+(program
+  (try_statement
+    body: (percent_string
+      content: (string_content))
+    handler: (percent_string
+      content: (string_content))
+    handler: (percent_string
+      content: (string_content))))
+
+==================
+Try with single-quoted block
+==================
+
+try 'echo hello' catch 'echo error'
+
+---
+
+(program
+  (try_statement
+    body: (single_quoted_string
+      (string_content))
+    handler: (single_quoted_string
+      (string_content))))
