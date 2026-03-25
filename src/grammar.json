@@ -101,6 +101,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "expansion"
+        },
+        {
+          "type": "SYMBOL",
           "name": "single_quoted_string"
         },
         {
@@ -208,6 +212,107 @@
           {
             "type": "PATTERN",
             "value": "%[^a-zA-Z\\x5b\\x5d{}<>()]"
+          }
+        ]
+      }
+    },
+    "expansion": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_expansion_percent"
+        },
+        {
+          "type": "FIELD",
+          "name": "type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "expansion_type"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_expansion_delim_start"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "FIELD",
+                      "name": "content",
+                      "content": {
+                        "type": "ALIAS",
+                        "content": {
+                          "type": "SYMBOL",
+                          "name": "_bare_string_content"
+                        },
+                        "named": true,
+                        "value": "string_content"
+                      }
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_percent_string_end"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "_nonbalanced_string_end"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "expansion_type": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "val"
+          },
+          {
+            "type": "STRING",
+            "value": "opt"
+          },
+          {
+            "type": "STRING",
+            "value": "sh"
+          },
+          {
+            "type": "STRING",
+            "value": "reg"
+          },
+          {
+            "type": "STRING",
+            "value": "arg"
+          },
+          {
+            "type": "STRING",
+            "value": "file"
+          },
+          {
+            "type": "STRING",
+            "value": "exp"
           }
         ]
       }
@@ -356,6 +461,10 @@
     {
       "type": "SYMBOL",
       "name": "_expansion_percent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_expansion_delim_start"
     },
     {
       "type": "SYMBOL",

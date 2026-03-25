@@ -1,0 +1,169 @@
+==================
+Val expansion
+==================
+
+echo %val{bufname}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Opt expansion
+==================
+
+echo %opt{indentwidth}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Shell expansion
+==================
+
+echo %sh{date}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Reg expansion
+==================
+
+echo %reg{a}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Arg expansion
+==================
+
+echo %arg{0}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+File expansion
+==================
+
+echo %file{/tmp/test}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Exp expansion
+==================
+
+echo %exp{2+2}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Shell expansion with balanced braces
+==================
+
+echo %sh{if [ true ]; then echo hello; fi}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Expansion with non-balanced delimiter
+==================
+
+echo %val|bufname|
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))
+
+==================
+Expansion with bracket delimiter
+==================
+
+echo %val[bufname]
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (expansion
+        type: (expansion_type)
+        content: (string_content)))))

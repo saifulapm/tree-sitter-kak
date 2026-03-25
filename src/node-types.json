@@ -12,6 +12,10 @@
           "named": true
         },
         {
+          "type": "expansion",
+          "named": true
+        },
+        {
           "type": "percent_string",
           "named": true
         },
@@ -86,6 +90,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "expansion",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string_content",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expansion_type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -167,6 +197,10 @@
   {
     "type": ";",
     "named": false
+  },
+  {
+    "type": "expansion_type",
+    "named": true
   },
   {
     "type": "word",

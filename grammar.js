@@ -18,6 +18,7 @@ module.exports = grammar({
     $._nonbalanced_string_end,
     $._string_content_double,
     $._expansion_percent,
+    $._expansion_delim_start,
     $._expansion_end,
     $._concat,
   ],
@@ -53,6 +54,7 @@ module.exports = grammar({
     command_name: $ => $.word,
 
     argument: $ => choice(
+      $.expansion,
       $.single_quoted_string,
       $.percent_string,
       $.double_quoted_string,
@@ -84,6 +86,20 @@ module.exports = grammar({
       '%%',
       /%[^a-zA-Z\x5b\x5d{}<>()]/,
     )),
+
+    expansion: $ => seq(
+      $._expansion_percent,
+      field('type', $.expansion_type),
+      choice(
+        seq(
+          $._expansion_delim_start,
+          optional(field('content', alias($._bare_string_content, $.string_content))),
+          choice($._percent_string_end, $._nonbalanced_string_end),
+        ),
+      ),
+    ),
+
+    expansion_type: $ => token.immediate(choice('val', 'opt', 'sh', 'reg', 'arg', 'file', 'exp')),
 
     percent_string: $ => choice(
       // Balanced: %{...} %[...] %<...> %(...)
