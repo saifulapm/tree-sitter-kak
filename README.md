@@ -76,6 +76,8 @@ Add to `~/.config/kak-tree-sitter/config.toml`:
 
 ```toml
 [language.kak]
+grammar = "kak"
+queries.path = "queries"
 
 [grammar.kak.source.git]
 url = "https://github.com/saifulapm/tree-sitter-kak"
