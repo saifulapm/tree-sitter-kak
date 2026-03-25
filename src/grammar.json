@@ -109,6 +109,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "double_quoted_string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "word"
         }
       ]
@@ -150,6 +154,60 @@
           {
             "type": "STRING",
             "value": "''"
+          }
+        ]
+      }
+    },
+    "double_quoted_string": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_double_string_content"
+              },
+              "named": true,
+              "value": "string_content"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "_double_string_content": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "[^\"%]+"
+          },
+          {
+            "type": "STRING",
+            "value": "\"\""
+          },
+          {
+            "type": "STRING",
+            "value": "%%"
+          },
+          {
+            "type": "PATTERN",
+            "value": "%[^a-zA-Z\\x5b\\x5d{}<>()]"
           }
         ]
       }
@@ -229,7 +287,7 @@
     },
     "word": {
       "type": "PATTERN",
-      "value": "[^\\s;#'%]+"
+      "value": "[^\\s;#'%\"]+"
     },
     "comment": {
       "type": "SEQ",

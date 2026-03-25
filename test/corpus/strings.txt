@@ -203,3 +203,50 @@ echo %{}
       (word))
     (argument
       (percent_string))))
+
+==================
+Double quoted string
+==================
+
+echo "hello world"
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string
+        (string_content)))))
+
+==================
+Double quoted string with escaped quote
+==================
+
+echo "say ""hello"""
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string
+        (string_content)))))
+
+==================
+Empty double quoted string
+==================
+
+echo ""
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string))))

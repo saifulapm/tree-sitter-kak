@@ -8,6 +8,10 @@
       "required": true,
       "types": [
         {
+          "type": "double_quoted_string",
+          "named": true
+        },
+        {
           "type": "percent_string",
           "named": true
         },
@@ -70,6 +74,21 @@
     "fields": {}
   },
   {
+    "type": "double_quoted_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "percent_string",
     "named": true,
     "fields": {
@@ -122,7 +141,19 @@
     "fields": {}
   },
   {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "\"\"",
+    "named": false
+  },
+  {
     "type": "#",
+    "named": false
+  },
+  {
+    "type": "%%",
     "named": false
   },
   {

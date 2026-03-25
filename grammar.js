@@ -55,6 +55,7 @@ module.exports = grammar({
     argument: $ => choice(
       $.single_quoted_string,
       $.percent_string,
+      $.double_quoted_string,
       $.word,
     ),
 
@@ -69,6 +70,19 @@ module.exports = grammar({
     string_content: $ => repeat1(choice(
       /[^']+/,
       "''",
+    )),
+
+    double_quoted_string: $ => seq(
+      '"',
+      optional(alias($._double_string_content, $.string_content)),
+      '"',
+    ),
+
+    _double_string_content: $ => repeat1(choice(
+      /[^"%]+/,
+      '""',
+      '%%',
+      /%[^a-zA-Z\x5b\x5d{}<>()]/,
     )),
 
     percent_string: $ => choice(
@@ -86,7 +100,7 @@ module.exports = grammar({
       ),
     ),
 
-    word: $ => /[^\s;#'%]+/,
+    word: $ => /[^\s;#'%"]+/,
 
     comment: $ => seq('#', /.*/),
 
