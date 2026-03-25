@@ -222,3 +222,74 @@ fail 'something went wrong'
     (argument
       (single_quoted_string
         (string_content)))))
+
+==================
+Define-command with params range before name
+==================
+
+define-command -params ..1 spell %{echo hello}
+
+---
+
+(program
+  (define_command
+    (switch
+      (word))
+    name: (command_name)
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Define-command with params numeric
+==================
+
+define-command -hidden -params 1 my-cmd %{echo hello}
+
+---
+
+(program
+  (define_command
+    (switch)
+    (switch
+      (word))
+    name: (command_name)
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Map with user-defined mode
+==================
+
+map global man 'g' -docstring 'jump' :man-jump
+
+---
+
+(program
+  (map_definition
+    scope: (scope)
+    mode: (mode
+      (word))
+    key: (argument
+      (single_quoted_string
+        (string_content)))
+    (switch
+      (single_quoted_string
+        (string_content)))
+    keys: (argument
+      (word))))
+
+==================
+Hook with bare command body
+==================
+
+hook global BufOpenFile .* file-detection
+
+---
+
+(program
+  (hook_definition
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (word)))

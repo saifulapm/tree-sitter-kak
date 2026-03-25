@@ -102,6 +102,7 @@ module.exports = grammar({
       field('scope', $.scope),
       field('mode', $.mode),
       field('key', $.argument),
+      repeat(alias($._keyword_switch, $.switch)),
       field('keys', $.argument),
     )),
 
@@ -115,7 +116,7 @@ module.exports = grammar({
 
     define_command: $ => prec(1, seq(
       'define-command',
-      repeat(alias($._flag_switch, $.switch)),
+      repeat(alias($._define_command_switch, $.switch)),
       field('name', alias($._user_command_name, $.command_name)),
       repeat(alias($._keyword_switch, $.switch)),
       field('body', $._block),
@@ -272,7 +273,7 @@ module.exports = grammar({
 
     scope: $ => choice('global', 'buffer', 'window', 'current', 'local'),
 
-    mode: $ => choice('insert', 'normal', 'prompt', 'user', 'goto', 'view', 'object'),
+    mode: $ => choice('insert', 'normal', 'prompt', 'user', 'goto', 'view', 'object', $.word),
 
     try_statement: $ => prec(1, seq(
       'try',
@@ -288,6 +289,7 @@ module.exports = grammar({
       $.single_quoted_string,
       $.double_quoted_string,
       $.expansion,
+      $.word,  // bare command name as body (e.g., hook ... .* file-detection)
     ),
 
     switch: $ => prec.right(seq(
@@ -326,6 +328,24 @@ module.exports = grammar({
       )),
     )),
 
+
+    // Like _flag_switch but also accepts non-name word values (digits, dots).
+    // Used in define-command before the name to handle -params ..1, -params 1, etc.
+    // without consuming the command name (which starts with alpha/underscore).
+    _define_command_switch: $ => prec.right(seq(
+      token(seq('-', /[a-zA-Z][a-zA-Z0-9_-]*/)),
+      optional(choice(
+        $.single_quoted_string,
+        $.double_quoted_string,
+        $.expansion,
+        $.percent_string,
+        alias($._non_name_word, $.word),
+      )),
+    )),
+
+    // Matches word-like tokens that cannot be a command name.
+    // Starts with non-alpha, non-underscore (e.g., digits, dots: 1, ..1, 0..2)
+    _non_name_word: $ => /[^a-zA-Z_\s;#'%"\\][^\s;#'%"\\]*/,
 
     switch_terminator: $ => '--',
 
@@ -394,7 +414,10 @@ module.exports = grammar({
       ),
     ),
 
-    word: $ => /[^\s;#'%"]+/,
+    word: $ => token(prec.right(repeat1(choice(
+      /[^\s;#'%"\\]+/,
+      /\\[^\n]/,  // escaped char (but NOT \n which is line continuation)
+    )))),
 
     comment: $ => seq('#', /.*/),
 

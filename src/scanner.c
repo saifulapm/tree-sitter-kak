@@ -348,10 +348,24 @@ bool tree_sitter_kakscript_external_scanner_scan(void *payload, TSLexer *lexer, 
         if (scan_expansion_delim_start(s, lexer)) return true;
     }
 
-    // Skip whitespace before looking for percent string start or expansion percent
+    // Skip whitespace and line continuations before looking for percent string start or expansion percent
     if (valid_symbols[PERCENT_STRING_START] || valid_symbols[NONBALANCED_STRING_START] || valid_symbols[EXPANSION_PERCENT]) {
-        while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
-            skip_scanner(lexer);
+        while (true) {
+            if (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
+                skip_scanner(lexer);
+            } else if (lexer->lookahead == '\\') {
+                // Peek: is next char \n? (line continuation)
+                skip_scanner(lexer);
+                if (lexer->lookahead == '\n') {
+                    skip_scanner(lexer); // consume \n — line continuation
+                    continue;
+                }
+                // Not a continuation — \ already consumed as skip,
+                // try scan_percent_start from current position
+                break;
+            } else {
+                break;
+            }
         }
         if (scan_percent_start(s, lexer, valid_symbols)) return true;
     }
