@@ -60,3 +60,146 @@ echo '%val{session}'
     (argument
       (single_quoted_string
         (string_content)))))
+
+==================
+Bare percent string with braces
+==================
+
+echo %{hello world}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Nested bare percent string
+==================
+
+echo %{outer %{inner} end}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Bare percent string with brackets
+==================
+
+echo %[hello world]
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Bare percent string with angle brackets
+==================
+
+echo %<hello world>
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Bare percent string with parens
+==================
+
+echo %(hello world)
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Bare percent string preserves expansions literally
+==================
+
+echo %{%val{session}}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Non-balanced bare percent string
+==================
+
+echo %|hello world|
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Non-balanced bare percent string with slash
+==================
+
+echo %/hello world/
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Empty bare percent string
+==================
+
+echo %{}
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (percent_string))))

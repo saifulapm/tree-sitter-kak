@@ -9,6 +9,19 @@
 module.exports = grammar({
   name: 'kakscript',
 
+  // Order MUST match enum TokenType in scanner.c exactly.
+  externals: $ => [
+    $._percent_string_start,
+    $._percent_string_end,
+    $._bare_string_content,
+    $._nonbalanced_string_start,
+    $._nonbalanced_string_end,
+    $._string_content_double,
+    $._expansion_percent,
+    $._expansion_end,
+    $._concat,
+  ],
+
   // IMPORTANT: \n is NOT in extras — it's a terminator.
   // Only horizontal whitespace is auto-skipped.
   extras: $ => [
@@ -41,8 +54,11 @@ module.exports = grammar({
 
     argument: $ => choice(
       $.single_quoted_string,
+      $.percent_string,
       $.word,
     ),
+
+    // --- Strings ---
 
     single_quoted_string: $ => seq(
       "'",
@@ -55,7 +71,22 @@ module.exports = grammar({
       "''",
     )),
 
-    word: $ => /[^\s;#']+/,
+    percent_string: $ => choice(
+      // Balanced: %{...} %[...] %<...> %(...)
+      seq(
+        $._percent_string_start,
+        optional(field('content', alias($._bare_string_content, $.string_content))),
+        $._percent_string_end,
+      ),
+      // Non-balanced: %|...| %/.../ etc.
+      seq(
+        $._nonbalanced_string_start,
+        optional(field('content', alias($._bare_string_content, $.string_content))),
+        $._nonbalanced_string_end,
+      ),
+    ),
+
+    word: $ => /[^\s;#'%]+/,
 
     comment: $ => seq('#', /.*/),
 

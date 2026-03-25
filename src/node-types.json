@@ -8,6 +8,10 @@
       "required": true,
       "types": [
         {
+          "type": "percent_string",
+          "named": true
+        },
+        {
           "type": "single_quoted_string",
           "named": true
         },
@@ -64,6 +68,22 @@
     "named": true,
     "extra": true,
     "fields": {}
+  },
+  {
+    "type": "percent_string",
+    "named": true,
+    "fields": {
+      "content": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string_content",
+            "named": true
+          }
+        ]
+      }
+    }
   },
   {
     "type": "program",
