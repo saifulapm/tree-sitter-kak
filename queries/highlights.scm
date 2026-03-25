@@ -40,7 +40,11 @@
 ; Strings
 (single_quoted_string) @string
 (double_quoted_string) @string
-(percent_string) @string
+
+; Percent strings — only highlight as string when NOT used as a block body
+; (block bodies get kakscript self-injection instead)
+(argument (percent_string) @string)
+(switch (percent_string) @string)
 
 ; Expansions
 (expansion_type) @keyword.directive
