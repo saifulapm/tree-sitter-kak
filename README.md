@@ -86,41 +86,6 @@ Then sync:
 ktsctl sync
 ```
 
-### Neovim
-
-Add to your Neovim tree-sitter config (e.g. using `nvim-treesitter`):
-
-```lua
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-
-parser_config.kakscript = {
-  install_info = {
-    url = "https://github.com/saifulapm/tree-sitter-kakscript",
-    files = { "src/parser.c", "src/scanner.c" },
-    branch = "main",
-  },
-  filetype = "kak",
-}
-
-vim.filetype.add({
-  extension = {
-    kak = "kakscript",
-    kakrc = "kakscript",
-  },
-})
-```
-
-Then install and copy queries:
-
-```sh
-:TSInstall kakscript
-```
-
-```sh
-mkdir -p ~/.local/share/nvim/site/queries/kakscript
-cp queries/*.scm ~/.local/share/nvim/site/queries/kakscript/
-```
-
 ## Development
 
 ### Prerequisites
