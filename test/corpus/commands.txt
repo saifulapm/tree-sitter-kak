@@ -1,0 +1,91 @@
+==================
+Simple command
+==================
+
+echo hello
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word))))
+
+==================
+Command with semicolon separator
+==================
+
+echo hello; echo world
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word)))
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word))))
+
+==================
+Comment
+==================
+
+# this is a comment
+
+---
+
+(program
+  (comment))
+
+==================
+Command with multiple arguments
+==================
+
+edit /path/to/file.kak
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word))))
+
+==================
+Empty program
+==================
+
+
+
+---
+
+(program)
+
+==================
+Multiple commands on separate lines
+==================
+
+echo hello
+echo world
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word)))
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (word))))

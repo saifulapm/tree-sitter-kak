@@ -1,0 +1,25 @@
+{
+  "grammars": [
+    {
+      "name": "kakscript",
+      "camelcase": "Kakscript",
+      "scope": "source.kakscript",
+      "path": ".",
+      "file-types": ["kak", "kakrc"],
+      "injection-regex": "^kakscript$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Kakscript grammar for tree-sitter"
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}
