@@ -6,7 +6,7 @@ authors = ["Saiful"]
 license = "MIT"
 keywords = ["incremental", "parsing", "tree-sitter", "kakscript"]
 categories = ["parser-implementations", "parsing", "text-editors"]
-repository = "https://github.com/saiful/kakscript-tree-sitter"
+repository = "https://github.com/saifulapm/tree-sitter-kakscript"
 edition = "2021"
 autoexamples = false
 

@@ -5,7 +5,7 @@
   "type": "commonjs",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saiful/kakscript-tree-sitter.git"
+    "url": "git+https://github.com/saifulapm/tree-sitter-kakscript.git"
   },
   "license": "MIT",
   "author": {
