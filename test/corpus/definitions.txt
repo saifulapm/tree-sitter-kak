@@ -8,8 +8,7 @@ define-command my-command %{echo hello}
 
 (program
   (define_command
-    name: (command_name
-      (word))
+    name: (command_name)
     body: (percent_string
       content: (string_content))))
 
@@ -17,20 +16,19 @@ define-command my-command %{echo hello}
 Define-command with switches
 ==================
 
-define-command -override -params 1 -docstring 'say hi' my-command %{echo hello}
+define-command my-command -override -params 1 -docstring 'say hi' %{echo hello}
 
 ---
 
 (program
   (define_command
+    name: (command_name)
     (switch)
     (switch
       (word))
     (switch
       (single_quoted_string
         (string_content)))
-    name: (command_name
-      (word))
     body: (percent_string
       content: (string_content))))
 

@@ -1,0 +1,108 @@
+==================
+Real-world hook with group switch
+==================
+
+hook -group ini-highlight global WinSetOption filetype=ini %{
+    add-highlighter window/ini ref ini
+    hook -once -always window WinSetOption filetype=.* %{ remove-highlighter window/ini }
+}
+
+---
+
+(program
+  (hook_definition
+    (switch
+      (word))
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Real-world define-command with switches after name
+==================
+
+define-command my-grep -params 1 -docstring "grep in project" %{
+    echo hello
+}
+
+---
+
+(program
+  (define_command
+    name: (command_name)
+    (switch
+      (word))
+    (switch
+      (double_quoted_string
+        (string_content)))
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Blank lines between statements
+==================
+
+hook global BufCreate .* %{
+    set-option buffer filetype kak
+}
+
+hook global WinSetOption filetype=kak %{
+    require-module kak
+}
+
+---
+
+(program
+  (hook_definition
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (percent_string
+      content: (string_content)))
+  (hook_definition
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Provide-module with override
+==================
+
+provide-module -override wren %{
+    add-highlighter shared/wren regions
+}
+
+---
+
+(program
+  (provide_module
+    (switch)
+    name: (word)
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Define-command with hidden switch
+==================
+
+define-command -hidden file-detection %{
+    evaluate-commands %sh{
+        echo hello
+    }
+}
+
+---
+
+(program
+  (define_command
+    (switch)
+    name: (command_name)
+    body: (percent_string
+      content: (string_content))))

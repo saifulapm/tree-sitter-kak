@@ -27,6 +27,7 @@ module.exports = grammar({
   // Only horizontal whitespace is auto-skipped.
   extras: $ => [
     /[ \t\r]/,
+    /\\\n/,
     $.comment,
   ],
 
@@ -114,8 +115,9 @@ module.exports = grammar({
 
     define_command: $ => prec(1, seq(
       'define-command',
+      repeat(alias($._flag_switch, $.switch)),
+      field('name', alias($._user_command_name, $.command_name)),
       repeat(alias($._keyword_switch, $.switch)),
-      field('name', $.command_name),
       field('body', $._block),
     )),
 
@@ -161,7 +163,7 @@ module.exports = grammar({
 
     provide_module: $ => prec(1, seq(
       'provide-module',
-      repeat(alias($._keyword_switch, $.switch)),
+      repeat(alias($._flag_switch, $.switch)),
       field('name', $.word),
       field('body', $._block),
     )),
@@ -238,7 +240,7 @@ module.exports = grammar({
 
     enter_user_mode: $ => prec(1, seq(
       'enter-user-mode',
-      repeat(alias($._keyword_switch, $.switch)),
+      repeat(alias($._flag_switch, $.switch)),
       field('name', $.word),
     )),
 
@@ -311,9 +313,27 @@ module.exports = grammar({
       )),
     )),
 
+    // Like _keyword_switch but does not greedily consume a bare word as value.
+    // Used before word-typed fields (e.g. provide-module name, enter-user-mode name)
+    // to avoid the switch eating the field value.
+    _flag_switch: $ => prec.right(seq(
+      token(seq('-', /[a-zA-Z][a-zA-Z0-9_-]*/)),
+      optional(choice(
+        $.single_quoted_string,
+        $.double_quoted_string,
+        $.expansion,
+        $.percent_string,
+      )),
+    )),
+
+
     switch_terminator: $ => '--',
 
     command_name: $ => $.word,
+
+    // Command name that cannot start with '-', used in define-command
+    // to distinguish the name from switches.
+    _user_command_name: $ => /[a-zA-Z_][a-zA-Z0-9_-]*/,
 
     argument: $ => choice(
       $.expansion,
@@ -378,6 +398,6 @@ module.exports = grammar({
 
     comment: $ => seq('#', /.*/),
 
-    _terminator: $ => choice(';', /\n/),
+    _terminator: $ => prec.right(repeat1(choice(';', /\n/))),
   },
 });

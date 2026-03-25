@@ -420,7 +420,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "_keyword_switch"
+                "name": "_flag_switch"
               },
               "named": true,
               "value": "switch"
@@ -430,8 +430,25 @@
             "type": "FIELD",
             "name": "name",
             "content": {
-              "type": "SYMBOL",
-              "name": "command_name"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_user_command_name"
+              },
+              "named": true,
+              "value": "command_name"
+            }
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_keyword_switch"
+              },
+              "named": true,
+              "value": "switch"
             }
           },
           {
@@ -699,7 +716,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "_keyword_switch"
+                "name": "_flag_switch"
               },
               "named": true,
               "value": "switch"
@@ -1079,7 +1096,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "_keyword_switch"
+                "name": "_flag_switch"
               },
               "named": true,
               "value": "switch"
@@ -1486,6 +1503,60 @@
         ]
       }
     },
+    "_flag_switch": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "TOKEN",
+            "content": {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "-"
+                },
+                {
+                  "type": "PATTERN",
+                  "value": "[a-zA-Z][a-zA-Z0-9_-]*"
+                }
+              ]
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "single_quoted_string"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "double_quoted_string"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "expansion"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "percent_string"
+                  }
+                ]
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
     "switch_terminator": {
       "type": "STRING",
       "value": "--"
@@ -1493,6 +1564,10 @@
     "command_name": {
       "type": "SYMBOL",
       "name": "word"
+    },
+    "_user_command_name": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z_][a-zA-Z0-9_-]*"
     },
     "argument": {
       "type": "CHOICE",
@@ -1786,23 +1861,34 @@
       ]
     },
     "_terminator": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ";"
-        },
-        {
-          "type": "PATTERN",
-          "value": "\\n"
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ";"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\n"
+            }
+          ]
         }
-      ]
+      }
     }
   },
   "extras": [
     {
       "type": "PATTERN",
       "value": "[ \\t\\r]"
+    },
+    {
+      "type": "PATTERN",
+      "value": "\\\\\\n"
     },
     {
       "type": "SYMBOL",
