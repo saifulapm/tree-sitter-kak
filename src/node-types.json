@@ -82,9 +82,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "expansion",
+          "named": true
+        },
         {
           "type": "string_content",
           "named": true
@@ -175,15 +179,7 @@
     "named": false
   },
   {
-    "type": "\"\"",
-    "named": false
-  },
-  {
     "type": "#",
-    "named": false
-  },
-  {
-    "type": "%%",
     "named": false
   },
   {

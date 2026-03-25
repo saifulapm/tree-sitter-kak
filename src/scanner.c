@@ -138,6 +138,75 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer) {
     return false;
 }
 
+// Scan text content inside double-quoted strings.
+// Stops before closing " or before expansion start (%alpha).
+// Consumes escaped quotes ("") and escaped percents (%%) as content.
+// Returns false without advancing if the first char is " or %alpha (no content).
+static bool scan_double_string_content(TSLexer *lexer, const bool *valid_symbols) {
+    bool has_content = false;
+
+    while (!lexer->eof(lexer)) {
+        int32_t c = lexer->lookahead;
+
+        if (c == '"') {
+            // Peek: is next also "? (escaped quote)
+            lexer->mark_end(lexer);
+            advance_scanner(lexer);
+            if (lexer->lookahead == '"') {
+                // Escaped quote - consume both
+                has_content = true;
+                advance_scanner(lexer);
+                lexer->mark_end(lexer);
+                continue;
+            }
+            // Closing quote - stop, mark_end already set before the "
+            break;
+        }
+
+        if (c == '%') {
+            lexer->mark_end(lexer);
+            advance_scanner(lexer);
+            int32_t next = lexer->lookahead;
+
+            if (next == '%') {
+                // Escaped percent - consume both
+                has_content = true;
+                advance_scanner(lexer);
+                lexer->mark_end(lexer);
+                continue;
+            }
+
+            if ((next >= 'a' && next <= 'z') || (next >= 'A' && next <= 'Z')) {
+                // Expansion start - stop before the %
+                // mark_end was already called before the %
+                if (!has_content && valid_symbols[EXPANSION_PERCENT]) {
+                    // First char is % followed by alpha - emit EXPANSION_PERCENT instead
+                    // We already consumed the %, just mark end after it
+                    lexer->mark_end(lexer);
+                    lexer->result_symbol = EXPANSION_PERCENT;
+                    return true;
+                }
+                break;
+            }
+
+            // Lone % followed by non-alpha - it's content
+            has_content = true;
+            lexer->mark_end(lexer);
+            continue;
+        }
+
+        has_content = true;
+        advance_scanner(lexer);
+        lexer->mark_end(lexer);
+    }
+
+    if (has_content) {
+        lexer->result_symbol = STRING_CONTENT_DOUBLE;
+        return true;
+    }
+    return false;
+}
+
 // Unified scan for all %-prefixed tokens:
 // - EXPANSION_PERCENT: % followed by alpha (typed expansion start, emits just %)
 // - PERCENT_STRING_START: %{ %[ %< %(
@@ -257,6 +326,11 @@ bool tree_sitter_kakscript_external_scanner_scan(void *payload, TSLexer *lexer, 
 
     if (error_recovery) {
         return false;
+    }
+
+    // Inside a double-quoted string, scan content segments or expansion start
+    if (valid_symbols[STRING_CONTENT_DOUBLE]) {
+        if (scan_double_string_content(lexer, valid_symbols)) return true;
     }
 
     // Inside a string, scan content first (no whitespace skipping — content is verbatim)

@@ -250,3 +250,99 @@ echo ""
       (word))
     (argument
       (double_quoted_string))))
+
+==================
+Double quoted string with expansion
+==================
+
+echo "buffer: %val{bufname}"
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string
+        (string_content)
+        (expansion
+          type: (expansion_type)
+          content: (string_content))))))
+
+==================
+Double quoted string with shell expansion
+==================
+
+echo "date: %sh{date}"
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string
+        (string_content)
+        (expansion
+          type: (expansion_type)
+          content: (string_content))))))
+
+==================
+Double quoted string with multiple expansions
+==================
+
+echo "%val{bufname}: %opt{filetype}"
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string
+        (expansion
+          type: (expansion_type)
+          content: (string_content))
+        (string_content)
+        (expansion
+          type: (expansion_type)
+          content: (string_content))))))
+
+==================
+Double quoted string with escaped percent
+==================
+
+echo "100%% done"
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string
+        (string_content)))))
+
+==================
+Double quoted string with expansion and trailing text
+==================
+
+echo "hello %val{name} world"
+
+---
+
+(program
+  (command
+    name: (command_name
+      (word))
+    (argument
+      (double_quoted_string
+        (string_content)
+        (expansion
+          type: (expansion_type)
+          content: (string_content))
+        (string_content)))))

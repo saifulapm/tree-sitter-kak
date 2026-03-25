@@ -76,16 +76,12 @@ module.exports = grammar({
 
     double_quoted_string: $ => seq(
       '"',
-      optional(alias($._double_string_content, $.string_content)),
+      repeat(choice(
+        alias($._string_content_double, $.string_content),
+        $.expansion,
+      )),
       '"',
     ),
-
-    _double_string_content: $ => repeat1(choice(
-      /[^"%]+/,
-      '""',
-      '%%',
-      /%[^a-zA-Z\x5b\x5d{}<>()]/,
-    )),
 
     expansion: $ => seq(
       $._expansion_percent,
