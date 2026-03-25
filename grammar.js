@@ -50,7 +50,28 @@ module.exports = grammar({
       $.define_command,
       $.evaluate_commands,
       $.execute_keys,
-      $.command,
+      $.set_option,
+      $.declare_option,
+      $.unset_option,
+      $.provide_module,
+      $.require_module,
+      $.source_command,
+      $.set_face,
+      $.alias_definition,
+      $.unalias_definition,
+      $.set_register,
+      $.echo_command,
+      $.fail_command,
+      $.nop_command,
+      $.remove_hooks,
+      $.remove_highlighter,
+      $.declare_user_mode,
+      $.enter_user_mode,
+      $.select_command,
+      $.prompt_command,
+      $.on_key_command,
+      $.add_highlighter,
+      $.command,  // generic fallback — MUST be last
     ),
 
     command: $ => seq(
@@ -110,7 +131,144 @@ module.exports = grammar({
       repeat1($.argument),
     )),
 
-    scope: $ => choice('global', 'buffer', 'window'),
+    set_option: $ => prec(1, seq(
+      'set-option',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('scope', $.scope),
+      field('name', $.word),
+      repeat1($.argument),
+    )),
+
+    declare_option: $ => prec(1, seq(
+      'declare-option',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('type', $.option_type),
+      field('name', $.word),
+      repeat($.argument),
+    )),
+
+    unset_option: $ => prec(1, seq(
+      'unset-option',
+      field('scope', $.scope),
+      field('name', $.word),
+    )),
+
+    option_type: $ => choice(
+      'int', 'bool', 'str', 'regex', 'coord',
+      'int-list', 'str-list', 'range-specs', 'line-specs',
+      'completions', 'str-to-str-map',
+    ),
+
+    provide_module: $ => prec(1, seq(
+      'provide-module',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('name', $.word),
+      field('body', $._block),
+    )),
+
+    require_module: $ => prec(1, seq(
+      'require-module',
+      field('name', $.word),
+    )),
+
+    source_command: $ => prec(1, seq(
+      'source',
+      field('filename', $.argument),
+      repeat($.argument),
+    )),
+
+    set_face: $ => prec(1, seq(
+      'set-face',
+      field('scope', $.scope),
+      field('name', $.word),
+      field('spec', $.argument),
+    )),
+
+    alias_definition: $ => prec(1, seq(
+      'alias',
+      field('scope', $.scope),
+      field('name', $.word),
+      field('command', $.word),
+    )),
+
+    unalias_definition: $ => prec(1, seq(
+      'unalias',
+      field('scope', $.scope),
+      field('name', $.word),
+      optional(field('expected', $.word)),
+    )),
+
+    set_register: $ => prec(1, seq(
+      'set-register',
+      field('name', $.word),
+      repeat1($.argument),
+    )),
+
+    echo_command: $ => prec(1, seq(
+      'echo',
+      repeat(alias($._plain_switch, $.switch)),
+      repeat($.argument),
+    )),
+
+    fail_command: $ => prec(1, seq(
+      'fail',
+      repeat($.argument),
+    )),
+
+    nop_command: $ => prec(1, seq(
+      'nop',
+      repeat($.argument),
+    )),
+
+    remove_hooks: $ => prec(1, seq(
+      'remove-hooks',
+      field('scope', $.scope),
+      field('group', $.word),
+    )),
+
+    remove_highlighter: $ => prec(1, seq(
+      'remove-highlighter',
+      field('path', $.word),
+    )),
+
+    declare_user_mode: $ => prec(1, seq(
+      'declare-user-mode',
+      field('name', $.word),
+    )),
+
+    enter_user_mode: $ => prec(1, seq(
+      'enter-user-mode',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('name', $.word),
+    )),
+
+    select_command: $ => prec(1, seq(
+      'select',
+      repeat(alias($._keyword_switch, $.switch)),
+      repeat1($.argument),
+    )),
+
+    prompt_command: $ => prec(1, seq(
+      'prompt',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('text', $.argument),
+      field('body', $._block),
+    )),
+
+    on_key_command: $ => prec(1, seq(
+      'on-key',
+      field('body', $._block),
+    )),
+
+    add_highlighter: $ => prec(1, seq(
+      'add-highlighter',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('path', $.word),
+      field('type', $.word),
+      repeat($.argument),
+    )),
+
+    scope: $ => choice('global', 'buffer', 'window', 'current', 'local'),
 
     mode: $ => choice('insert', 'normal', 'prompt', 'user', 'goto', 'view', 'object'),
 

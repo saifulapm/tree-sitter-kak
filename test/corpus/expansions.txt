@@ -2,7 +2,7 @@
 Val expansion
 ==================
 
-echo %val{bufname}
+info %val{bufname}
 
 ---
 
@@ -19,7 +19,7 @@ echo %val{bufname}
 Opt expansion
 ==================
 
-echo %opt{indentwidth}
+info %opt{indentwidth}
 
 ---
 
@@ -36,7 +36,7 @@ echo %opt{indentwidth}
 Shell expansion
 ==================
 
-echo %sh{date}
+info %sh{date}
 
 ---
 
@@ -53,7 +53,7 @@ echo %sh{date}
 Reg expansion
 ==================
 
-echo %reg{a}
+info %reg{a}
 
 ---
 
@@ -70,7 +70,7 @@ echo %reg{a}
 Arg expansion
 ==================
 
-echo %arg{0}
+info %arg{0}
 
 ---
 
@@ -87,7 +87,7 @@ echo %arg{0}
 File expansion
 ==================
 
-echo %file{/tmp/test}
+info %file{/tmp/test}
 
 ---
 
@@ -104,7 +104,7 @@ echo %file{/tmp/test}
 Exp expansion
 ==================
 
-echo %exp{2+2}
+info %exp{2+2}
 
 ---
 
@@ -121,7 +121,7 @@ echo %exp{2+2}
 Shell expansion with balanced braces
 ==================
 
-echo %sh{if [ true ]; then echo hello; fi}
+info %sh{if [ true ]; then infohello; fi}
 
 ---
 
@@ -138,7 +138,7 @@ echo %sh{if [ true ]; then echo hello; fi}
 Expansion with non-balanced delimiter
 ==================
 
-echo %val|bufname|
+info %val|bufname|
 
 ---
 
@@ -155,7 +155,7 @@ echo %val|bufname|
 Expansion with bracket delimiter
 ==================
 
-echo %val[bufname]
+info %val[bufname]
 
 ---
 

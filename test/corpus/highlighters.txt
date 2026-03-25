@@ -1,0 +1,45 @@
+==================
+Add highlighter group
+==================
+
+add-highlighter shared/kakscript group
+
+---
+
+(program
+  (add_highlighter
+    path: (word)
+    type: (word)))
+
+==================
+Add highlighter regex
+==================
+
+add-highlighter shared/kakscript/code regex '\bdef\b' 0:keyword
+
+---
+
+(program
+  (add_highlighter
+    path: (word)
+    type: (word)
+    (argument
+      (single_quoted_string
+        (string_content)))
+    (argument
+      (word))))
+
+==================
+Add highlighter fill
+==================
+
+add-highlighter shared/kakscript/comment fill comment
+
+---
+
+(program
+  (add_highlighter
+    path: (word)
+    type: (word)
+    (argument
+      (word))))

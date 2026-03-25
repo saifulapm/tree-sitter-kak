@@ -2,7 +2,7 @@
 Simple command
 ==================
 
-echo hello
+info hello
 
 ---
 
@@ -17,7 +17,7 @@ echo hello
 Command with semicolon separator
 ==================
 
-echo hello; echo world
+info hello; info world
 
 ---
 
@@ -73,8 +73,8 @@ Empty program
 Multiple commands on separate lines
 ==================
 
-echo hello
-echo world
+info hello
+info world
 
 ---
 
@@ -94,7 +94,7 @@ echo world
 Command with switch
 ==================
 
-echo -debug hello
+info -debug hello
 
 ---
 
@@ -126,7 +126,7 @@ my-command -params 1
 Command with switch terminator
 ==================
 
-echo -- -not-a-switch
+info -- -not-a-switch
 
 ---
 

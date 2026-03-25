@@ -1,5 +1,81 @@
 [
   {
+    "type": "add_highlighter",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "alias_definition",
+    "named": true,
+    "fields": {
+      "command": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "argument",
     "named": true,
     "fields": {},
@@ -86,6 +162,62 @@
     "fields": {}
   },
   {
+    "type": "declare_option",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "option_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "declare_user_mode",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "define_command",
     "named": true,
     "fields": {
@@ -153,6 +285,51 @@
     }
   },
   {
+    "type": "echo_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enter_user_mode",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "evaluate_commands",
     "named": true,
     "fields": {},
@@ -214,6 +391,21 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "fail_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -346,6 +538,54 @@
     "fields": {}
   },
   {
+    "type": "nop_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "on_key_command",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "double_quoted_string",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "percent_string",
+            "named": true
+          },
+          {
+            "type": "single_quoted_string",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "option_type",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "percent_string",
     "named": true,
     "fields": {
@@ -371,11 +611,35 @@
       "required": false,
       "types": [
         {
+          "type": "add_highlighter",
+          "named": true
+        },
+        {
+          "type": "alias_definition",
+          "named": true
+        },
+        {
           "type": "command",
           "named": true
         },
         {
+          "type": "declare_option",
+          "named": true
+        },
+        {
+          "type": "declare_user_mode",
+          "named": true
+        },
+        {
           "type": "define_command",
+          "named": true
+        },
+        {
+          "type": "echo_command",
+          "named": true
+        },
+        {
+          "type": "enter_user_mode",
           "named": true
         },
         {
@@ -387,6 +651,10 @@
           "named": true
         },
         {
+          "type": "fail_command",
+          "named": true
+        },
+        {
           "type": "hook_definition",
           "named": true
         },
@@ -395,20 +663,351 @@
           "named": true
         },
         {
+          "type": "nop_command",
+          "named": true
+        },
+        {
+          "type": "on_key_command",
+          "named": true
+        },
+        {
+          "type": "prompt_command",
+          "named": true
+        },
+        {
+          "type": "provide_module",
+          "named": true
+        },
+        {
+          "type": "remove_highlighter",
+          "named": true
+        },
+        {
+          "type": "remove_hooks",
+          "named": true
+        },
+        {
+          "type": "require_module",
+          "named": true
+        },
+        {
+          "type": "select_command",
+          "named": true
+        },
+        {
+          "type": "set_face",
+          "named": true
+        },
+        {
+          "type": "set_option",
+          "named": true
+        },
+        {
+          "type": "set_register",
+          "named": true
+        },
+        {
+          "type": "source_command",
+          "named": true
+        },
+        {
           "type": "try_statement",
           "named": true
         },
         {
+          "type": "unalias_definition",
+          "named": true
+        },
+        {
           "type": "unmap_definition",
+          "named": true
+        },
+        {
+          "type": "unset_option",
           "named": true
         }
       ]
     }
   },
   {
+    "type": "prompt_command",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "double_quoted_string",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "percent_string",
+            "named": true
+          },
+          {
+            "type": "single_quoted_string",
+            "named": true
+          }
+        ]
+      },
+      "text": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "provide_module",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "double_quoted_string",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "percent_string",
+            "named": true
+          },
+          {
+            "type": "single_quoted_string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "remove_highlighter",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "remove_hooks",
+    "named": true,
+    "fields": {
+      "group": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "require_module",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "scope",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "select_command",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "set_face",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      },
+      "spec": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "set_option",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "set_register",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "single_quoted_string",
@@ -420,6 +1019,32 @@
       "types": [
         {
           "type": "string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_command",
+    "named": true,
+    "fields": {
+      "filename": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "argument",
           "named": true
         }
       ]
@@ -512,6 +1137,42 @@
     }
   },
   {
+    "type": "unalias_definition",
+    "named": true,
+    "fields": {
+      "expected": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "unmap_definition",
     "named": true,
     "fields": {
@@ -558,6 +1219,32 @@
     }
   },
   {
+    "type": "unset_option",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -578,6 +1265,18 @@
     "named": false
   },
   {
+    "type": "add-highlighter",
+    "named": false
+  },
+  {
+    "type": "alias",
+    "named": false
+  },
+  {
+    "type": "bool",
+    "named": false
+  },
+  {
     "type": "buffer",
     "named": false
   },
@@ -586,7 +1285,35 @@
     "named": false
   },
   {
+    "type": "completions",
+    "named": false
+  },
+  {
+    "type": "coord",
+    "named": false
+  },
+  {
+    "type": "current",
+    "named": false
+  },
+  {
+    "type": "declare-option",
+    "named": false
+  },
+  {
+    "type": "declare-user-mode",
+    "named": false
+  },
+  {
     "type": "define-command",
+    "named": false
+  },
+  {
+    "type": "echo",
+    "named": false
+  },
+  {
+    "type": "enter-user-mode",
     "named": false
   },
   {
@@ -600,6 +1327,10 @@
   {
     "type": "expansion_type",
     "named": true
+  },
+  {
+    "type": "fail",
+    "named": false
   },
   {
     "type": "global",
@@ -618,7 +1349,27 @@
     "named": false
   },
   {
+    "type": "int",
+    "named": false
+  },
+  {
+    "type": "int-list",
+    "named": false
+  },
+  {
+    "type": "line-specs",
+    "named": false
+  },
+  {
+    "type": "local",
+    "named": false
+  },
+  {
     "type": "map",
+    "named": false
+  },
+  {
+    "type": "nop",
     "named": false
   },
   {
@@ -630,7 +1381,67 @@
     "named": false
   },
   {
+    "type": "on-key",
+    "named": false
+  },
+  {
     "type": "prompt",
+    "named": false
+  },
+  {
+    "type": "provide-module",
+    "named": false
+  },
+  {
+    "type": "range-specs",
+    "named": false
+  },
+  {
+    "type": "regex",
+    "named": false
+  },
+  {
+    "type": "remove-highlighter",
+    "named": false
+  },
+  {
+    "type": "remove-hooks",
+    "named": false
+  },
+  {
+    "type": "require-module",
+    "named": false
+  },
+  {
+    "type": "select",
+    "named": false
+  },
+  {
+    "type": "set-face",
+    "named": false
+  },
+  {
+    "type": "set-option",
+    "named": false
+  },
+  {
+    "type": "set-register",
+    "named": false
+  },
+  {
+    "type": "source",
+    "named": false
+  },
+  {
+    "type": "str",
+    "named": false
+  },
+  {
+    "type": "str-list",
+    "named": false
+  },
+  {
+    "type": "str-to-str-map",
     "named": false
   },
   {
@@ -642,7 +1453,15 @@
     "named": false
   },
   {
+    "type": "unalias",
+    "named": false
+  },
+  {
     "type": "unmap",
+    "named": false
+  },
+  {
+    "type": "unset-option",
     "named": false
   },
   {

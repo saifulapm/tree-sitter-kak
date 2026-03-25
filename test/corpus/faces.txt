@@ -1,0 +1,14 @@
+==================
+Set face
+==================
+
+set-face global keyword rgb:ff0000+b
+
+---
+
+(program
+  (set_face
+    scope: (scope)
+    name: (word)
+    spec: (argument
+      (word))))

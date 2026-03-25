@@ -2,7 +2,7 @@
 Single quoted string
 ==================
 
-echo 'hello world'
+info 'hello world'
 
 ---
 
@@ -18,7 +18,7 @@ echo 'hello world'
 Single quoted string with escaped quote
 ==================
 
-echo 'it''s fine'
+info 'it''s fine'
 
 ---
 
@@ -34,7 +34,7 @@ echo 'it''s fine'
 Empty single quoted string
 ==================
 
-echo ''
+info ''
 
 ---
 
@@ -49,7 +49,7 @@ echo ''
 Single quoted string preserves percent
 ==================
 
-echo '%val{session}'
+info '%val{session}'
 
 ---
 
@@ -65,7 +65,7 @@ echo '%val{session}'
 Bare percent string with braces
 ==================
 
-echo %{hello world}
+info %{hello world}
 
 ---
 
@@ -81,7 +81,7 @@ echo %{hello world}
 Nested bare percent string
 ==================
 
-echo %{outer %{inner} end}
+info %{outer %{inner} end}
 
 ---
 
@@ -97,7 +97,7 @@ echo %{outer %{inner} end}
 Bare percent string with brackets
 ==================
 
-echo %[hello world]
+info %[hello world]
 
 ---
 
@@ -113,7 +113,7 @@ echo %[hello world]
 Bare percent string with angle brackets
 ==================
 
-echo %<hello world>
+info %<hello world>
 
 ---
 
@@ -129,7 +129,7 @@ echo %<hello world>
 Bare percent string with parens
 ==================
 
-echo %(hello world)
+info %(hello world)
 
 ---
 
@@ -145,7 +145,7 @@ echo %(hello world)
 Bare percent string preserves expansions literally
 ==================
 
-echo %{%val{session}}
+info %{%val{session}}
 
 ---
 
@@ -161,7 +161,7 @@ echo %{%val{session}}
 Non-balanced bare percent string
 ==================
 
-echo %|hello world|
+info %|hello world|
 
 ---
 
@@ -177,7 +177,7 @@ echo %|hello world|
 Non-balanced bare percent string with slash
 ==================
 
-echo %/hello world/
+info %/hello world/
 
 ---
 
@@ -193,7 +193,7 @@ echo %/hello world/
 Empty bare percent string
 ==================
 
-echo %{}
+info %{}
 
 ---
 
@@ -208,7 +208,7 @@ echo %{}
 Double quoted string
 ==================
 
-echo "hello world"
+info "hello world"
 
 ---
 
@@ -224,7 +224,7 @@ echo "hello world"
 Double quoted string with escaped quote
 ==================
 
-echo "say ""hello"""
+info "say ""hello"""
 
 ---
 
@@ -240,7 +240,7 @@ echo "say ""hello"""
 Empty double quoted string
 ==================
 
-echo ""
+info ""
 
 ---
 
@@ -255,7 +255,7 @@ echo ""
 Double quoted string with expansion
 ==================
 
-echo "buffer: %val{bufname}"
+info "buffer: %val{bufname}"
 
 ---
 
@@ -274,7 +274,7 @@ echo "buffer: %val{bufname}"
 Double quoted string with shell expansion
 ==================
 
-echo "date: %sh{date}"
+info "date: %sh{date}"
 
 ---
 
@@ -293,7 +293,7 @@ echo "date: %sh{date}"
 Double quoted string with multiple expansions
 ==================
 
-echo "%val{bufname}: %opt{filetype}"
+info "%val{bufname}: %opt{filetype}"
 
 ---
 
@@ -315,7 +315,7 @@ echo "%val{bufname}: %opt{filetype}"
 Double quoted string with escaped percent
 ==================
 
-echo "100%% done"
+info "100%% done"
 
 ---
 
@@ -331,7 +331,7 @@ echo "100%% done"
 Double quoted string with expansion and trailing text
 ==================
 
-echo "hello %val{name} world"
+info "hello %val{name} world"
 
 ---
 

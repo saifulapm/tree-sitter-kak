@@ -1,0 +1,38 @@
+==================
+Provide module
+==================
+
+provide-module my-module %{echo hello}
+
+---
+
+(program
+  (provide_module
+    name: (word)
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Require module
+==================
+
+require-module my-module
+
+---
+
+(program
+  (require_module
+    name: (word)))
+
+==================
+Source command
+==================
+
+source /path/to/file.kak
+
+---
+
+(program
+  (source_command
+    filename: (argument
+      (word))))

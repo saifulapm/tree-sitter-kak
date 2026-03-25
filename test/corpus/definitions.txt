@@ -33,3 +33,194 @@ define-command -override -params 1 -docstring 'say hi' my-command %{echo hello}
       (word))
     body: (percent_string
       content: (string_content))))
+
+==================
+Set option
+==================
+
+set-option global indentwidth 4
+
+---
+
+(program
+  (set_option
+    scope: (scope)
+    name: (word)
+    (argument
+      (word))))
+
+==================
+Declare option
+==================
+
+declare-option str my_option 'default'
+
+---
+
+(program
+  (declare_option
+    type: (option_type)
+    name: (word)
+    (argument
+      (single_quoted_string
+        (string_content)))))
+
+==================
+Unset option
+==================
+
+unset-option buffer indentwidth
+
+---
+
+(program
+  (unset_option
+    scope: (scope)
+    name: (word)))
+
+==================
+Alias definition
+==================
+
+alias global w write
+
+---
+
+(program
+  (alias_definition
+    scope: (scope)
+    name: (word)
+    command: (word)))
+
+==================
+Set register
+==================
+
+set-register a 'hello world'
+
+---
+
+(program
+  (set_register
+    name: (word)
+    (argument
+      (single_quoted_string
+        (string_content)))))
+
+==================
+Echo command
+==================
+
+echo -debug 'hello world'
+
+---
+
+(program
+  (echo_command
+    (switch)
+    (argument
+      (single_quoted_string
+        (string_content)))))
+
+==================
+Remove hooks
+==================
+
+remove-hooks global my-hooks
+
+---
+
+(program
+  (remove_hooks
+    scope: (scope)
+    group: (word)))
+
+==================
+Declare user mode
+==================
+
+declare-user-mode my-mode
+
+---
+
+(program
+  (declare_user_mode
+    name: (word)))
+
+==================
+Enter user mode
+==================
+
+enter-user-mode my-mode
+
+---
+
+(program
+  (enter_user_mode
+    name: (word)))
+
+==================
+Prompt command
+==================
+
+prompt 'search: ' %{echo hello}
+
+---
+
+(program
+  (prompt_command
+    text: (argument
+      (single_quoted_string
+        (string_content)))
+    body: (percent_string
+      content: (string_content))))
+
+==================
+On-key command
+==================
+
+on-key %{echo hello}
+
+---
+
+(program
+  (on_key_command
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Remove highlighter
+==================
+
+remove-highlighter shared/kakscript
+
+---
+
+(program
+  (remove_highlighter
+    path: (word)))
+
+==================
+Nop command
+==================
+
+nop
+
+---
+
+(program
+  (nop_command))
+
+==================
+Fail command
+==================
+
+fail 'something went wrong'
+
+---
+
+(program
+  (fail_command
+    (argument
+      (single_quoted_string
+        (string_content)))))
