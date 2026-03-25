@@ -75,6 +75,13 @@ tree-sitter parse example.kak
 Add to `~/.config/kak-tree-sitter/config.toml`:
 
 ```toml
+# These capture groups are not in the default config and must be added
+[highlight]
+groups = [
+  "function.definition",
+  "keyword.import",
+]
+
 [language.kak]
 grammar = "kak"
 queries.path = "queries"
