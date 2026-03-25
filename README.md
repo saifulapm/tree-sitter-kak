@@ -47,14 +47,21 @@ name = "kakscript"
 source = { git = "https://github.com/saifulapm/tree-sitter-kakscript", rev = "main" }
 ```
 
-Then fetch and build:
+Then fetch, build, and install queries:
 
 ```sh
 hx --grammar fetch
 hx --grammar build
 ```
 
-Helix picks up query files (`highlights.scm`, `injections.scm`, etc.) automatically from the grammar's `queries/` directory.
+Helix bundles queries in its own runtime directory. Copy them manually:
+
+```sh
+mkdir -p ~/.config/helix/runtime/queries/kakscript
+git clone --depth 1 https://github.com/saifulapm/tree-sitter-kakscript /tmp/tree-sitter-kakscript
+cp /tmp/tree-sitter-kakscript/queries/*.scm ~/.config/helix/runtime/queries/kakscript/
+rm -rf /tmp/tree-sitter-kakscript
+```
 
 ### Kakoune (kak-tree-sitter)
 
