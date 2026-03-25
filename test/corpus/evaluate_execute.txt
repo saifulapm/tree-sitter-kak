@@ -1,0 +1,56 @@
+==================
+Simple evaluate-commands
+==================
+
+evaluate-commands %{echo hello}
+
+---
+
+(program
+  (evaluate_commands
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Evaluate-commands with switches
+==================
+
+evaluate-commands -no-hooks -draft %{echo hello}
+
+---
+
+(program
+  (evaluate_commands
+    (switch)
+    (switch)
+    (argument
+      (percent_string
+        content: (string_content)))))
+
+==================
+Simple execute-keys
+==================
+
+execute-keys giGl
+
+---
+
+(program
+  (execute_keys
+    (argument
+      (word))))
+
+==================
+Execute-keys with switches
+==================
+
+execute-keys -draft giGl
+
+---
+
+(program
+  (execute_keys
+    (switch)
+    (argument
+      (word))))

@@ -86,6 +86,54 @@
     "fields": {}
   },
   {
+    "type": "define_command",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "double_quoted_string",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "percent_string",
+            "named": true
+          },
+          {
+            "type": "single_quoted_string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "command_name",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "double_quoted_string",
     "named": true,
     "fields": {},
@@ -99,6 +147,44 @@
         },
         {
           "type": "string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "evaluate_commands",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "execute_keys",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "argument",
+          "named": true
+        },
+        {
+          "type": "switch",
           "named": true
         }
       ]
@@ -131,6 +217,135 @@
     }
   },
   {
+    "type": "hook_definition",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "double_quoted_string",
+            "named": true
+          },
+          {
+            "type": "expansion",
+            "named": true
+          },
+          {
+            "type": "percent_string",
+            "named": true
+          },
+          {
+            "type": "single_quoted_string",
+            "named": true
+          }
+        ]
+      },
+      "filter": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "map_definition",
+    "named": true,
+    "fields": {
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      },
+      "keys": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      },
+      "mode": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "mode",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mode",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "percent_string",
     "named": true,
     "fields": {
@@ -160,11 +375,40 @@
           "named": true
         },
         {
+          "type": "define_command",
+          "named": true
+        },
+        {
+          "type": "evaluate_commands",
+          "named": true
+        },
+        {
+          "type": "execute_keys",
+          "named": true
+        },
+        {
+          "type": "hook_definition",
+          "named": true
+        },
+        {
+          "type": "map_definition",
+          "named": true
+        },
+        {
           "type": "try_statement",
+          "named": true
+        },
+        {
+          "type": "unmap_definition",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "scope",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "single_quoted_string",
@@ -208,6 +452,10 @@
         },
         {
           "type": "single_quoted_string",
+          "named": true
+        },
+        {
+          "type": "word",
           "named": true
         }
       ]
@@ -264,6 +512,52 @@
     }
   },
   {
+    "type": "unmap_definition",
+    "named": true,
+    "fields": {
+      "expected": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      },
+      "key": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      },
+      "mode": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "mode",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "scope",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -284,7 +578,23 @@
     "named": false
   },
   {
+    "type": "buffer",
+    "named": false
+  },
+  {
     "type": "catch",
+    "named": false
+  },
+  {
+    "type": "define-command",
+    "named": false
+  },
+  {
+    "type": "evaluate-commands",
+    "named": false
+  },
+  {
+    "type": "execute-keys",
     "named": false
   },
   {
@@ -292,11 +602,59 @@
     "named": true
   },
   {
+    "type": "global",
+    "named": false
+  },
+  {
+    "type": "goto",
+    "named": false
+  },
+  {
+    "type": "hook",
+    "named": false
+  },
+  {
+    "type": "insert",
+    "named": false
+  },
+  {
+    "type": "map",
+    "named": false
+  },
+  {
+    "type": "normal",
+    "named": false
+  },
+  {
+    "type": "object",
+    "named": false
+  },
+  {
+    "type": "prompt",
+    "named": false
+  },
+  {
     "type": "switch_terminator",
     "named": true
   },
   {
     "type": "try",
+    "named": false
+  },
+  {
+    "type": "unmap",
+    "named": false
+  },
+  {
+    "type": "user",
+    "named": false
+  },
+  {
+    "type": "view",
+    "named": false
+  },
+  {
+    "type": "window",
     "named": false
   },
   {

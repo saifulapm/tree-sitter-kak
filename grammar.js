@@ -44,6 +44,12 @@ module.exports = grammar({
 
     _statement: $ => choice(
       $.try_statement,
+      $.hook_definition,
+      $.map_definition,
+      $.unmap_definition,
+      $.define_command,
+      $.evaluate_commands,
+      $.execute_keys,
       $.command,
     ),
 
@@ -58,6 +64,55 @@ module.exports = grammar({
         repeat($.argument),
       )),
     ),
+
+    hook_definition: $ => prec(1, seq(
+      'hook',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('scope', $.scope),
+      field('name', $.word),
+      field('filter', $.argument),
+      field('body', $._block),
+    )),
+
+    map_definition: $ => prec(1, seq(
+      'map',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('scope', $.scope),
+      field('mode', $.mode),
+      field('key', $.argument),
+      field('keys', $.argument),
+    )),
+
+    unmap_definition: $ => prec(1, seq(
+      'unmap',
+      field('scope', $.scope),
+      field('mode', $.mode),
+      field('key', $.argument),
+      optional(field('expected', $.argument)),
+    )),
+
+    define_command: $ => prec(1, seq(
+      'define-command',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('name', $.command_name),
+      field('body', $._block),
+    )),
+
+    evaluate_commands: $ => prec(1, seq(
+      'evaluate-commands',
+      repeat(alias($._plain_switch, $.switch)),
+      repeat1($.argument),
+    )),
+
+    execute_keys: $ => prec(1, seq(
+      'execute-keys',
+      repeat(alias($._plain_switch, $.switch)),
+      repeat1($.argument),
+    )),
+
+    scope: $ => choice('global', 'buffer', 'window'),
+
+    mode: $ => choice('insert', 'normal', 'prompt', 'user', 'goto', 'view', 'object'),
 
     try_statement: $ => prec(1, seq(
       'try',
@@ -82,6 +137,19 @@ module.exports = grammar({
         $.double_quoted_string,
         $.expansion,
         $.percent_string,
+      )),
+    )),
+
+    _plain_switch: $ => token(seq('-', /[a-zA-Z][a-zA-Z0-9_-]*/)),
+
+    _keyword_switch: $ => prec.right(seq(
+      token(seq('-', /[a-zA-Z][a-zA-Z0-9_-]*/)),
+      optional(choice(
+        $.single_quoted_string,
+        $.double_quoted_string,
+        $.expansion,
+        $.percent_string,
+        $.word,
       )),
     )),
 

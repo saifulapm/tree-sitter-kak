@@ -1,0 +1,52 @@
+==================
+Simple hook
+==================
+
+hook global WinCreate .* %{echo hello}
+
+---
+
+(program
+  (hook_definition
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Hook with group switch
+==================
+
+hook -group my-hooks global BufSetOption filetype=python %{echo py}
+
+---
+
+(program
+  (hook_definition
+    (switch
+      (word))
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (percent_string
+      content: (string_content))))
+
+==================
+Buffer scope hook
+==================
+
+hook buffer InsertChar \n %{echo newline}
+
+---
+
+(program
+  (hook_definition
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (percent_string
+      content: (string_content))))

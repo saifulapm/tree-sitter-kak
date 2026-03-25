@@ -1,0 +1,53 @@
+==================
+Simple map
+==================
+
+map global normal x ': some-command<ret>'
+
+---
+
+(program
+  (map_definition
+    scope: (scope)
+    mode: (mode)
+    key: (argument
+      (word))
+    keys: (argument
+      (single_quoted_string
+        (string_content)))))
+
+==================
+Map with docstring
+==================
+
+map -docstring 'find file' global user f ': find-file<ret>'
+
+---
+
+(program
+  (map_definition
+    (switch
+      (single_quoted_string
+        (string_content)))
+    scope: (scope)
+    mode: (mode)
+    key: (argument
+      (word))
+    keys: (argument
+      (single_quoted_string
+        (string_content)))))
+
+==================
+Unmap
+==================
+
+unmap global normal x
+
+---
+
+(program
+  (unmap_definition
+    scope: (scope)
+    mode: (mode)
+    key: (argument
+      (word))))
