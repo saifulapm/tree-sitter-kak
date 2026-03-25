@@ -68,6 +68,55 @@ tree-sitter parse example.kak
 | Go | `bindings/go/` |
 | Swift | `bindings/swift/` |
 
+## Editor Setup
+
+### Kakoune (kak-tree-sitter)
+
+Add to `~/.config/kak-tree-sitter/config.toml`:
+
+```toml
+[language.kak]
+
+[grammar.kak.source.git]
+url = "https://github.com/saifulapm/tree-sitter-kak"
+pin = "06a7d4a92d3c655694e3d4b142790c9c5c13a165"
+
+[grammar.kak]
+compile_args = ["-c", "-fpic", "../scanner.c", "../parser.c", "-I", ".."]
+link_args = ["-shared", "-fpic", "scanner.o", "parser.o", "-o", "kak.so"]
+
+[language.kak.queries.source.git]
+url = "https://github.com/saifulapm/tree-sitter-kak"
+pin = "06a7d4a92d3c655694e3d4b142790c9c5c13a165"
+```
+
+### Helix
+
+Add to `~/.config/helix/languages.toml`:
+
+```toml
+[[language]]
+name = "kak"
+scope = "source.kak"
+file-types = ["kak", "kakrc"]
+injection-regex = "^kak$"
+comment-token = "#"
+indent = { tab-width = 4, unit = "    " }
+
+[[grammar]]
+name = "kak"
+source = { git = "https://github.com/saifulapm/tree-sitter-kak", rev = "06a7d4a92d3c655694e3d4b142790c9c5c13a165" }
+```
+
+Then fetch and build the grammar, and copy queries to Helix's runtime:
+
+```sh
+hx --grammar fetch
+hx --grammar build
+mkdir -p ~/.config/helix/runtime/queries/kak
+cp /path/to/tree-sitter-kak/queries/*.scm ~/.config/helix/runtime/queries/kak/
+```
+
 ## References
 
 - [Kakoune](https://kakoune.org/)
