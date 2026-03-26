@@ -26,6 +26,8 @@ Parses 100% of Kakoune's own `rc/` scripts (167/167 files) without errors.
 | `queries/injections.scm` | `%sh{...}` bash injection |
 | `queries/locals.scm` | Definition tracking |
 | `queries/tags.scm` | Symbol navigation |
+| `queries/textobjects.scm` | Text objects (Helix) |
+| `queries/indents.scm` | Auto-indentation (Helix) |
 
 ## Development
 
