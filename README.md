@@ -107,14 +107,14 @@ Add to `~/.config/helix/languages.toml`:
 [[language]]
 name = "kak"
 scope = "source.kak"
-file-types = ["kak", "kakrc"]
+file-types = ["kak", { glob = "kakrc" }]
 injection-regex = "^kak$"
 comment-token = "#"
 indent = { tab-width = 4, unit = "    " }
 
 [[grammar]]
 name = "kak"
-source = { git = "https://github.com/saifulapm/tree-sitter-kak", rev = "06a7d4a92d3c655694e3d4b142790c9c5c13a165" }
+source = { git = "https://github.com/saifulapm/tree-sitter-kak", rev = "main" }
 ```
 
 Then fetch and build the grammar, and copy queries to Helix's runtime:

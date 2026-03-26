@@ -44,7 +44,7 @@ set-option global indentwidth 4
   (set_option
     scope: (scope)
     name: (word)
-    (argument
+    value: (argument
       (word))))
 
 ==================
@@ -196,7 +196,10 @@ remove-highlighter shared/kak
 
 (program
   (remove_highlighter
-    path: (word)))
+    path: (highlighter_path
+      scope: (scope)
+      (path_separator)
+      name: (word))))
 
 ==================
 Nop command
@@ -334,7 +337,7 @@ set-option -add global my_list item1
     (switch)
     scope: (scope)
     name: (word)
-    (argument
+    value: (argument
       (word))))
 
 ==================

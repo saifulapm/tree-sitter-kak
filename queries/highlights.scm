@@ -50,8 +50,19 @@
 (expansion_type) @keyword.directive
 (expansion) @embedded
 
+; Option names
+(set_option
+  name: (word) @variable.other.member)
+(unset_option
+  name: (word) @variable.other.member)
+(declare_option
+  name: (word) @variable.other.member)
+
 ; Scopes
 (scope) @constant.builtin
+
+; Highlighter path separator
+(path_separator) @punctuation.delimiter
 
 ; Modes
 (mode) @constant.builtin

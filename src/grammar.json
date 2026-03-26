@@ -579,8 +579,12 @@
           {
             "type": "REPEAT1",
             "content": {
-              "type": "SYMBOL",
-              "name": "argument"
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "SYMBOL",
+                "name": "argument"
+              }
             }
           }
         ]
@@ -1065,7 +1069,7 @@
             "name": "path",
             "content": {
               "type": "SYMBOL",
-              "name": "word"
+              "name": "highlighter_path"
             }
           }
         ]
@@ -1246,7 +1250,7 @@
             "name": "path",
             "content": {
               "type": "SYMBOL",
-              "name": "word"
+              "name": "highlighter_path"
             }
           },
           {
@@ -1263,6 +1267,59 @@
               "type": "SYMBOL",
               "name": "argument"
             }
+          }
+        ]
+      }
+    },
+    "highlighter_path": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "scope",
+            "content": {
+              "type": "SYMBOL",
+              "name": "scope"
+            }
+          },
+          {
+            "type": "ALIAS",
+            "content": {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "/"
+              }
+            },
+            "named": true,
+            "value": "path_separator"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[a-zA-Z0-9_][a-zA-Z0-9_/._-]*"
+                    }
+                  },
+                  "named": true,
+                  "value": "word"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         ]
       }
@@ -1289,6 +1346,10 @@
         {
           "type": "STRING",
           "value": "local"
+        },
+        {
+          "type": "STRING",
+          "value": "shared"
         }
       ]
     },

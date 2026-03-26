@@ -8,7 +8,10 @@ add-highlighter shared/kak group
 
 (program
   (add_highlighter
-    path: (word)
+    path: (highlighter_path
+      scope: (scope)
+      (path_separator)
+      name: (word))
     type: (word)))
 
 ==================
@@ -21,7 +24,10 @@ add-highlighter shared/kak/code regex '\bdef\b' 0:keyword
 
 (program
   (add_highlighter
-    path: (word)
+    path: (highlighter_path
+      scope: (scope)
+      (path_separator)
+      name: (word))
     type: (word)
     (argument
       (single_quoted_string
@@ -39,7 +45,10 @@ add-highlighter shared/kak/comment fill comment
 
 (program
   (add_highlighter
-    path: (word)
+    path: (highlighter_path
+      scope: (scope)
+      (path_separator)
+      name: (word))
     type: (word)
     (argument
       (word))))

@@ -139,7 +139,7 @@ module.exports = grammar({
       repeat(alias($._keyword_switch, $.switch)),
       field('scope', $.scope),
       field('name', $.word),
-      repeat1($.argument),
+      repeat1(field('value', $.argument)),
     )),
 
     declare_option: $ => prec(1, seq(
@@ -231,7 +231,7 @@ module.exports = grammar({
 
     remove_highlighter: $ => prec(1, seq(
       'remove-highlighter',
-      field('path', $.word),
+      field('path', $.highlighter_path),
     )),
 
     declare_user_mode: $ => prec(1, seq(
@@ -266,12 +266,18 @@ module.exports = grammar({
     add_highlighter: $ => prec(1, seq(
       'add-highlighter',
       repeat(alias($._keyword_switch, $.switch)),
-      field('path', $.word),
+      field('path', $.highlighter_path),
       field('type', $.word),
       repeat($.argument),
     )),
 
-    scope: $ => choice('global', 'buffer', 'window', 'current', 'local'),
+    highlighter_path: $ => prec(2, seq(
+      field('scope', $.scope),
+      alias(token.immediate('/'), $.path_separator),
+      optional(field('name', alias(token.immediate(/[a-zA-Z0-9_][a-zA-Z0-9_/._-]*/), $.word))),
+    )),
+
+    scope: $ => choice('global', 'buffer', 'window', 'current', 'local', 'shared'),
 
     mode: $ => choice('insert', 'normal', 'prompt', 'user', 'goto', 'view', 'object', $.word),
 
