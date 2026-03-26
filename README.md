@@ -28,6 +28,7 @@ Parses 100% of Kakoune's own `rc/` scripts (167/167 files) without errors.
 | `queries/tags.scm` | Symbol navigation |
 | `queries/textobjects.scm` | Text objects (Helix) |
 | `queries/indents.scm` | Auto-indentation (Helix) |
+| `queries/folds.scm` | Code folding (Neovim) |
 
 ## Development
 
