@@ -61,7 +61,11 @@
 ; Scopes
 (scope) @constant.builtin
 
-; Highlighter path separator
+; Highlighter path: scope name and type
+(highlighter_path
+  name: (word) @variable.other.member)
+(add_highlighter
+  type: (word) @function)
 (path_separator) @punctuation.delimiter
 
 ; Modes
