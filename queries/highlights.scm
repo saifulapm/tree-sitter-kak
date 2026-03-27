@@ -49,9 +49,10 @@
 (argument (percent_string) @string)
 (switch (percent_string) @string)
 
-; Expansions
+; Expansions — only highlight as embedded when NOT used as a block body
 (expansion_type) @keyword.directive
-(expansion) @embedded
+(argument (expansion) @embedded)
+(switch (expansion) @embedded)
 
 ; Hook names
 (hook_definition
