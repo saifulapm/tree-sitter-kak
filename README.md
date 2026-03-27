@@ -91,7 +91,7 @@ queries.path = "queries"
 
 [grammar.kak.source.git]
 url = "https://github.com/saifulapm/tree-sitter-kak"
-pin = "14768e2736e2fc792f13b18981c67916d365c119"
+pin = "c0a0d90a4b5687ec395e6ae7870dc50eb6f99818"
 
 [grammar.kak]
 compile_args = ["-c", "-fpic", "../scanner.c", "../parser.c", "-I", ".."]
@@ -99,7 +99,7 @@ link_args = ["-shared", "-fpic", "scanner.o", "parser.o", "-o", "kak.so"]
 
 [language.kak.queries.source.git]
 url = "https://github.com/saifulapm/tree-sitter-kak"
-pin = "14768e2736e2fc792f13b18981c67916d365c119"
+pin = "c0a0d90a4b5687ec395e6ae7870dc50eb6f99818"
 ```
 
 ### Helix
