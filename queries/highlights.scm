@@ -47,6 +47,9 @@
 ; Percent strings
 (percent_string) @string
 
+; Block body string content — fallback when injection isn't available
+(block_body (string_content) @string)
+
 ; Expansions
 (expansion_type) @keyword.directive
 (expansion) @embedded
