@@ -17,8 +17,28 @@ hook -group ini-highlight global WinSetOption filetype=ini %{
     name: (word)
     filter: (argument
       (word))
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (add_highlighter
+        path: (highlighter_path
+          scope: (scope)
+          (path_separator)
+          name: (word))
+        type: (word)
+        (argument
+          (word)))
+      (hook_definition
+        (switch)
+        (switch)
+        scope: (scope)
+        name: (word)
+        filter: (argument
+          (word))
+        body: (kak_block
+          (remove_highlighter
+            path: (highlighter_path
+              scope: (scope)
+              (path_separator)
+              name: (word))))))))
 
 ==================
 Real-world define-command with switches after name
@@ -38,8 +58,10 @@ define-command my-grep -params 1 -docstring "grep in project" %{
     (switch
       (double_quoted_string
         (string_content)))
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (echo_command
+        (argument
+          (word))))))
 
 ==================
 Blank lines between statements
@@ -61,15 +83,20 @@ hook global WinSetOption filetype=kak %{
     name: (word)
     filter: (argument
       (word))
-    body: (percent_string
-      content: (string_content)))
+    body: (kak_block
+      (set_option
+        scope: (scope)
+        name: (word)
+        value: (argument
+          (word)))))
   (hook_definition
     scope: (scope)
     name: (word)
     filter: (argument
       (word))
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (require_module
+        name: (word)))))
 
 ==================
 Provide-module with override
@@ -85,8 +112,13 @@ provide-module -override wren %{
   (provide_module
     (switch)
     name: (word)
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (add_highlighter
+        path: (highlighter_path
+          scope: (scope)
+          (path_separator)
+          name: (word))
+        type: (word)))))
 
 ==================
 Define-command with hidden switch
@@ -104,5 +136,9 @@ define-command -hidden file-detection %{
   (define_command
     (switch)
     name: (command_name)
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (evaluate_commands
+        (argument
+          (expansion
+            type: (expansion_type)
+            content: (string_content)))))))

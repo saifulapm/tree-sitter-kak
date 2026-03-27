@@ -9,8 +9,10 @@ define-command my-command %{echo hello}
 (program
   (define_command
     name: (command_name)
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (echo_command
+        (argument
+          (word))))))
 
 ==================
 Define-command with switches
@@ -29,8 +31,10 @@ define-command my-command -override -params 1 -docstring 'say hi' %{echo hello}
     (switch
       (single_quoted_string
         (string_content)))
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (echo_command
+        (argument
+          (word))))))
 
 ==================
 Set option
@@ -170,8 +174,10 @@ prompt 'search: ' %{echo hello}
     text: (argument
       (single_quoted_string
         (string_content)))
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (echo_command
+        (argument
+          (word))))))
 
 ==================
 On-key command
@@ -183,8 +189,10 @@ on-key %{echo hello}
 
 (program
   (on_key_command
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (echo_command
+        (argument
+          (word))))))
 
 ==================
 Remove highlighter
@@ -239,8 +247,10 @@ define-command -params ..1 spell %{echo hello}
     (switch
       (word))
     name: (command_name)
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (echo_command
+        (argument
+          (word))))))
 
 ==================
 Define-command with params numeric
@@ -256,8 +266,10 @@ define-command -hidden -params 1 my-cmd %{echo hello}
     (switch
       (word))
     name: (command_name)
-    body: (percent_string
-      content: (string_content))))
+    body: (kak_block
+      (echo_command
+        (argument
+          (word))))))
 
 ==================
 Map with user-defined mode

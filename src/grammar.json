@@ -1514,7 +1514,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "percent_string"
+          "name": "kak_block"
         },
         {
           "type": "SYMBOL",
@@ -1531,6 +1531,38 @@
         {
           "type": "SYMBOL",
           "name": "word"
+        }
+      ]
+    },
+    "kak_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_percent_string_start"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_terminator"
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_statements"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_percent_string_end"
         }
       ]
     },
@@ -2129,7 +2161,7 @@
             "members": [
               {
                 "type": "PATTERN",
-                "value": "[^\\s;#'%\"\\\\]+"
+                "value": "[^\\s;#'%\"\\\\}]+"
               },
               {
                 "type": "PATTERN",

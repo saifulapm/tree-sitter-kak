@@ -301,11 +301,18 @@ module.exports = grammar({
     )),
 
     _block: $ => choice(
-      $.percent_string,
+      $.kak_block,
       $.single_quoted_string,
       $.double_quoted_string,
       $.expansion,
       $.word,  // bare command name as body (e.g., hook ... .* file-detection)
+    ),
+
+    kak_block: $ => seq(
+      $._percent_string_start,
+      repeat($._terminator),
+      optional($._statements),
+      $._percent_string_end,
     ),
 
     switch: $ => prec.right(seq(
@@ -445,7 +452,7 @@ module.exports = grammar({
     ),
 
     word: $ => token(prec.right(repeat1(choice(
-      /[^\s;#'%"\\]+/,
+      /[^\s;#'%"\\}]+/,
       /\\[^\n]/,  // escaped char (but NOT \n which is line continuation)
     )))),
 
