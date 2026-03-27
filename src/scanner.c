@@ -219,7 +219,7 @@ static bool scan_double_string_content(TSLexer *lexer, const bool *valid_symbols
 // - EXPANSION_PERCENT: % followed by alpha (typed expansion start, emits just %)
 // - PERCENT_STRING_START: %{ %[ %< %(
 // - NONBALANCED_STRING_START: %| %/ etc.
-static bool scan_percent_start(Scanner *s, TSLexer *lexer, const bool *valid_symbols) {
+static bool scan_percent_start(Scanner *s, TSLexer *lexer, const bool *valid_symbols, bool allow_nonbalanced) {
     if (lexer->lookahead != '%') return false;
 
     advance_scanner(lexer); // consume '%'
@@ -250,7 +250,7 @@ static bool scan_percent_start(Scanner *s, TSLexer *lexer, const bool *valid_sym
     }
 
     // Non-balanced: any non-alphanumeric, non-whitespace char
-    if (next != ' ' && next != '\t' && next != '\n' && next != '\r') {
+    if (allow_nonbalanced && next != ' ' && next != '\t' && next != '\n' && next != '\r') {
         if (valid_symbols[NONBALANCED_STRING_START]) {
             if (s->stack_size >= MAX_DEPTH) return false;
             s->delimiter_stack[s->stack_size++] = next;
@@ -364,13 +364,16 @@ bool tree_sitter_kak_external_scanner_scan(void *payload, TSLexer *lexer, const 
 
     // Skip whitespace and line continuations before looking for percent string start or expansion percent
     if (valid_symbols[PERCENT_STRING_START] || valid_symbols[NONBALANCED_STRING_START] || valid_symbols[EXPANSION_PERCENT]) {
+        bool had_whitespace = false;
         while (true) {
             if (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
+                had_whitespace = true;
                 skip_scanner(lexer);
             } else if (lexer->lookahead == '\\') {
                 // Peek: is next char \n? (line continuation)
                 skip_scanner(lexer);
                 if (lexer->lookahead == '\n') {
+                    had_whitespace = true;
                     skip_scanner(lexer); // consume \n — line continuation
                     continue;
                 }
@@ -381,7 +384,9 @@ bool tree_sitter_kak_external_scanner_scan(void *payload, TSLexer *lexer, const 
                 break;
             }
         }
-        if (scan_percent_start(s, lexer, valid_symbols)) return true;
+        // Only allow non-balanced strings when preceded by whitespace.
+        // Without whitespace, % is likely part of a key sequence (e.g. <a-%>).
+        if (scan_percent_start(s, lexer, valid_symbols, had_whitespace)) return true;
     }
 
     return false;

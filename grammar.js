@@ -447,6 +447,7 @@ module.exports = grammar({
 
     word: $ => token(prec.right(repeat1(choice(
       /[^\s;#'%"\\]+/,
+      /%[^a-zA-Z{\[(<\s;#'"\\]/,  // % when not starting an expansion or percent string
       /\\[^\n]/,  // escaped char (but NOT \n which is line continuation)
     )))),
 
