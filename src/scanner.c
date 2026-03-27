@@ -22,6 +22,7 @@ enum TokenType {
 typedef struct {
     int32_t delimiter_stack[MAX_DEPTH];
     uint8_t stack_size;
+    int16_t block_body_depth;  // persisted brace depth within block_body content
 } Scanner;
 
 static int32_t closing_delimiter_for(int32_t open) {
@@ -71,18 +72,25 @@ unsigned tree_sitter_kak_external_scanner_serialize(void *payload, char *buffer)
         memcpy(&buffer[size], &s->delimiter_stack[i], sizeof(int32_t));
         size += sizeof(int32_t);
     }
+    memcpy(&buffer[size], &s->block_body_depth, sizeof(int16_t));
+    size += sizeof(int16_t);
     return size;
 }
 
 void tree_sitter_kak_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
     Scanner *s = (Scanner *)payload;
     s->stack_size = 0;
+    s->block_body_depth = 0;
     if (length == 0) return;
     unsigned pos = 0;
     s->stack_size = (uint8_t)buffer[pos++];
     for (uint8_t i = 0; i < s->stack_size && pos + sizeof(int32_t) <= length; i++) {
         memcpy(&s->delimiter_stack[i], &buffer[pos], sizeof(int32_t));
         pos += sizeof(int32_t);
+    }
+    if (pos + sizeof(int16_t) <= length) {
+        memcpy(&s->block_body_depth, &buffer[pos], sizeof(int16_t));
+        pos += sizeof(int16_t);
     }
 }
 
@@ -105,7 +113,7 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion
     }
 
     bool has_content = false;
-    int depth = 0;
+    int depth = stop_at_expansion ? s->block_body_depth : 0;
     bool in_single_quote = false;
     bool in_double_quote = false;
 
@@ -121,7 +129,7 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion
 
         // In block body mode, stop before %alpha (expansion start like %sh, %val).
         // Only when not inside quotes and at brace depth 0.
-        if (stop_at_expansion && depth == 0 && !in_single_quote && !in_double_quote && c == '%') {
+        if (stop_at_expansion && !in_single_quote && !in_double_quote && c == '%') {
             // Peek ahead to check for a valid expansion type followed by a delimiter.
             // We need to verify this is really %sh{, %val{, etc. — not %s in printf.
             lexer->mark_end(lexer);
@@ -147,7 +155,8 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion
                                    !((tc >= 'a' && tc <= 'z') || (tc >= 'A' && tc <= 'Z') ||
                                      (tc >= '0' && tc <= '9'))));
                 if (known_type && has_delim) {
-                    // Confirmed expansion — return content before %
+                    // Confirmed expansion — save depth and return content before %
+                    s->block_body_depth = (int16_t)depth;
                     if (has_content) {
                         lexer->result_symbol = BARE_STRING_CONTENT;
                         return true;
@@ -191,6 +200,9 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion
     }
 
     if (has_content) {
+        if (stop_at_expansion) {
+            s->block_body_depth = (int16_t)depth;
+        }
         lexer->mark_end(lexer);
         lexer->result_symbol = BARE_STRING_CONTENT;
         return true;
