@@ -44,15 +44,12 @@
 (single_quoted_string) @string
 (double_quoted_string) @string
 
-; Percent strings — only highlight as string when NOT used as a block body
-; (block bodies get kak self-injection instead)
-(argument (percent_string) @string)
-(switch (percent_string) @string)
+; Percent strings
+(percent_string) @string
 
-; Expansions — only highlight as embedded when NOT used as a block body
+; Expansions
 (expansion_type) @keyword.directive
-(argument (expansion) @embedded)
-(switch (expansion) @embedded)
+(expansion) @embedded
 
 ; Hook names
 (hook_definition
