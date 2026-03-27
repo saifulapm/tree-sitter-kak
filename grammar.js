@@ -92,7 +92,7 @@ module.exports = grammar({
       'hook',
       repeat(alias($._keyword_switch, $.switch)),
       field('scope', $.scope),
-      repeat(alias($._keyword_switch, $.switch)),
+      repeat(alias($._flag_switch, $.switch)),
       field('name', $.word),
       field('filter', $.argument),
       field('body', $._block),

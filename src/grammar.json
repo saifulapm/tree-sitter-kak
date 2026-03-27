@@ -277,7 +277,7 @@
               "type": "ALIAS",
               "content": {
                 "type": "SYMBOL",
-                "name": "_keyword_switch"
+                "name": "_flag_switch"
               },
               "named": true,
               "value": "switch"
