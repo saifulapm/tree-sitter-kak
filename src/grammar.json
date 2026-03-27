@@ -1518,15 +1518,15 @@
         },
         {
           "type": "SYMBOL",
+          "name": "kak_expansion_block"
+        },
+        {
+          "type": "SYMBOL",
           "name": "single_quoted_string"
         },
         {
           "type": "SYMBOL",
           "name": "double_quoted_string"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "expansion"
         },
         {
           "type": "SYMBOL",
@@ -1565,6 +1565,63 @@
           "name": "_percent_string_end"
         }
       ]
+    },
+    "kak_expansion_block": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_expansion_percent"
+          },
+          {
+            "type": "FIELD",
+            "name": "type",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expansion_type"
+            }
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_expansion_delim_start"
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_terminator"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_statements"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_percent_string_end"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_nonbalanced_string_end"
+              }
+            ]
+          }
+        ]
+      }
     },
     "switch": {
       "type": "PREC_RIGHT",

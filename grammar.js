@@ -302,9 +302,9 @@ module.exports = grammar({
 
     _block: $ => choice(
       $.kak_block,
+      $.kak_expansion_block,
       $.single_quoted_string,
       $.double_quoted_string,
-      $.expansion,
       $.word,  // bare command name as body (e.g., hook ... .* file-detection)
     ),
 
@@ -314,6 +314,15 @@ module.exports = grammar({
       optional($._statements),
       $._percent_string_end,
     ),
+
+    kak_expansion_block: $ => prec(2, seq(
+      $._expansion_percent,
+      field('type', $.expansion_type),
+      $._expansion_delim_start,
+      repeat($._terminator),
+      optional($._statements),
+      choice($._percent_string_end, $._nonbalanced_string_end),
+    )),
 
     switch: $ => prec.right(seq(
       token(seq('-', /[a-zA-Z][a-zA-Z0-9_-]*/)),
