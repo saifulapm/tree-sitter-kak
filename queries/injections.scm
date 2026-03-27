@@ -6,6 +6,16 @@
   (#set! injection.language "bash")
   (#set! injection.include-children))
 
+; Inject bash into complete-command shell-script-candidates param
+((complete_command
+  type: (completion_type) @_type
+  param: (argument
+    (percent_string
+      content: (string_content) @injection.content)))
+  (#match? @_type "^shell-script")
+  (#set! injection.language "bash")
+  (#set! injection.include-children))
+
 ; Inject bash into %sh{...} expansion content
 ((expansion
   type: (expansion_type) @_type

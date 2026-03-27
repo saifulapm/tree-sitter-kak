@@ -72,6 +72,7 @@ module.exports = grammar({
       $.prompt_command,
       $.on_key_command,
       $.add_highlighter,
+      $.complete_command,
       $.command,  // generic fallback — MUST be last
     ),
 
@@ -270,6 +271,14 @@ module.exports = grammar({
       field('path', $.highlighter_path),
       field('type', $.word),
       repeat($.argument),
+    )),
+
+    complete_command: $ => prec(1, seq(
+      'complete-command',
+      repeat(alias($._keyword_switch, $.switch)),
+      field('name', $.word),
+      field('type', alias($.word, $.completion_type)),
+      optional(field('param', $.argument)),
     )),
 
     highlighter_path: $ => prec(2, seq(
