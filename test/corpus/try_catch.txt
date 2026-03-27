@@ -8,8 +8,8 @@ try %{echo hello}
 
 (program
   (try_statement
-    body: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))))
 
 ==================
 Try catch
@@ -21,10 +21,10 @@ try %{command-that-fails} catch %{echo error}
 
 (program
   (try_statement
-    body: (percent_string
-      content: (string_content))
-    handler: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))
+    handler: (block_body
+      (string_content))))
 
 ==================
 Try with multiple catch blocks
@@ -36,12 +36,12 @@ try %{cmd1} catch %{cmd2} catch %{cmd3}
 
 (program
   (try_statement
-    body: (percent_string
-      content: (string_content))
-    handler: (percent_string
-      content: (string_content))
-    handler: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))
+    handler: (block_body
+      (string_content))
+    handler: (block_body
+      (string_content))))
 
 ==================
 Try with single-quoted block

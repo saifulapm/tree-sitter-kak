@@ -9,8 +9,8 @@ provide-module my-module %{echo hello}
 (program
   (provide_module
     name: (word)
-    body: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))))
 
 ==================
 Require module

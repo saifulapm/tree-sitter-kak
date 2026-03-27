@@ -17,8 +17,8 @@ hook -group ini-highlight global WinSetOption filetype=ini %{
     name: (word)
     filter: (argument
       (word))
-    body: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))))
 
 ==================
 Real-world define-command with switches after name
@@ -38,8 +38,8 @@ define-command my-grep -params 1 -docstring "grep in project" %{
     (switch
       (double_quoted_string
         (string_content)))
-    body: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))))
 
 ==================
 Blank lines between statements
@@ -61,15 +61,15 @@ hook global WinSetOption filetype=kak %{
     name: (word)
     filter: (argument
       (word))
-    body: (percent_string
-      content: (string_content)))
+    body: (block_body
+      (string_content)))
   (hook_definition
     scope: (scope)
     name: (word)
     filter: (argument
       (word))
-    body: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))))
 
 ==================
 Provide-module with override
@@ -85,8 +85,8 @@ provide-module -override wren %{
   (provide_module
     (switch)
     name: (word)
-    body: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content))))
 
 ==================
 Define-command with hidden switch
@@ -104,5 +104,9 @@ define-command -hidden file-detection %{
   (define_command
     (switch)
     name: (command_name)
-    body: (percent_string
-      content: (string_content))))
+    body: (block_body
+      (string_content)
+      (expansion
+        type: (expansion_type)
+        content: (string_content))
+      (string_content))))

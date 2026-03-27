@@ -111,6 +111,25 @@
     }
   },
   {
+    "type": "block_body",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expansion",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "command",
     "named": true,
     "fields": {
@@ -307,15 +326,15 @@
         "required": true,
         "types": [
           {
+            "type": "block_body",
+            "named": true
+          },
+          {
             "type": "double_quoted_string",
             "named": true
           },
           {
             "type": "expansion",
-            "named": true
-          },
-          {
-            "type": "percent_string",
             "named": true
           },
           {
@@ -538,15 +557,15 @@
         "required": true,
         "types": [
           {
+            "type": "block_body",
+            "named": true
+          },
+          {
             "type": "double_quoted_string",
             "named": true
           },
           {
             "type": "expansion",
-            "named": true
-          },
-          {
-            "type": "percent_string",
             "named": true
           },
           {
@@ -696,15 +715,15 @@
         "required": true,
         "types": [
           {
+            "type": "block_body",
+            "named": true
+          },
+          {
             "type": "double_quoted_string",
             "named": true
           },
           {
             "type": "expansion",
-            "named": true
-          },
-          {
-            "type": "percent_string",
             "named": true
           },
           {
@@ -881,15 +900,15 @@
         "required": true,
         "types": [
           {
+            "type": "block_body",
+            "named": true
+          },
+          {
             "type": "double_quoted_string",
             "named": true
           },
           {
             "type": "expansion",
-            "named": true
-          },
-          {
-            "type": "percent_string",
             "named": true
           },
           {
@@ -933,15 +952,15 @@
         "required": true,
         "types": [
           {
+            "type": "block_body",
+            "named": true
+          },
+          {
             "type": "double_quoted_string",
             "named": true
           },
           {
             "type": "expansion",
-            "named": true
-          },
-          {
-            "type": "percent_string",
             "named": true
           },
           {
@@ -1252,15 +1271,15 @@
         "required": true,
         "types": [
           {
+            "type": "block_body",
+            "named": true
+          },
+          {
             "type": "double_quoted_string",
             "named": true
           },
           {
             "type": "expansion",
-            "named": true
-          },
-          {
-            "type": "percent_string",
             "named": true
           },
           {
@@ -1278,15 +1297,15 @@
         "required": false,
         "types": [
           {
+            "type": "block_body",
+            "named": true
+          },
+          {
             "type": "double_quoted_string",
             "named": true
           },
           {
             "type": "expansion",
-            "named": true
-          },
-          {
-            "type": "percent_string",
             "named": true
           },
           {

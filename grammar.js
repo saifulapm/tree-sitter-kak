@@ -302,11 +302,31 @@ module.exports = grammar({
     )),
 
     _block: $ => choice(
-      $.percent_string,
+      $.block_body,
       $.single_quoted_string,
       $.double_quoted_string,
       $.expansion,
       $.word,  // bare command name as body (e.g., hook ... .* file-detection)
+    ),
+
+    // Like percent_string but recognizes expansions (%sh{}, %val{}, etc.) inside,
+    // enabling injection queries to match them.
+    block_body: $ => choice(
+      // Balanced: %{...}
+      seq(
+        $._percent_string_start,
+        repeat(choice(
+          alias($._bare_string_content, $.string_content),
+          $.expansion,
+        )),
+        $._percent_string_end,
+      ),
+      // Non-balanced: %|...|, %/.../, etc.
+      seq(
+        $._nonbalanced_string_start,
+        optional(alias($._bare_string_content, $.string_content)),
+        $._nonbalanced_string_end,
+      ),
     ),
 
     switch: $ => prec.right(seq(

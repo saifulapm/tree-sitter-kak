@@ -90,7 +90,8 @@ void tree_sitter_kak_external_scanner_deserialize(void *payload, const char *buf
 
 // Scan verbatim content inside a bare percent string.
 // Handles nested balanced delimiters.
-static bool scan_bare_content(Scanner *s, TSLexer *lexer) {
+// When stop_at_expansion is true, stops before %alpha sequences (for block bodies).
+static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion) {
     if (s->stack_size == 0) return false;
 
     int32_t close_delim = s->delimiter_stack[s->stack_size - 1];
@@ -105,9 +106,41 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer) {
 
     bool has_content = false;
     int depth = 0;
+    bool in_single_quote = false;
+    bool in_double_quote = false;
 
     while (!lexer->eof(lexer)) {
         int32_t c = lexer->lookahead;
+
+        // Track quote state within content
+        if (c == '\'' && !in_double_quote) {
+            in_single_quote = !in_single_quote;
+        } else if (c == '"' && !in_single_quote) {
+            in_double_quote = !in_double_quote;
+        }
+
+        // In block body mode, stop before %alpha (expansion start like %sh, %val).
+        // Only when not inside quotes and at brace depth 0.
+        if (stop_at_expansion && depth == 0 && !in_single_quote && !in_double_quote && c == '%') {
+            lexer->mark_end(lexer);
+            advance_scanner(lexer);
+            int32_t next = lexer->lookahead;
+            if ((next >= 'a' && next <= 'z') || (next >= 'A' && next <= 'Z')) {
+                // Confirmed expansion start — return content before %
+                // mark_end was set before %, so token ends before %
+                if (has_content) {
+                    lexer->result_symbol = BARE_STRING_CONTENT;
+                    return true;
+                }
+                // % is first char — can't return empty content.
+                // Return false; the early expansion check will handle it.
+                return false;
+            }
+            // Not an expansion — consume % as content
+            has_content = true;
+            lexer->mark_end(lexer);
+            continue;
+        }
 
         if (open_delim != 0) {
             // Balanced: track nested braces
@@ -347,9 +380,17 @@ bool tree_sitter_kak_external_scanner_scan(void *payload, TSLexer *lexer, const 
         if (scan_double_string_content(lexer, valid_symbols)) return true;
     }
 
+    // In block body mode (EXPANSION_PERCENT valid), check for expansion start BEFORE
+    // scanning bare content, so %sh{} etc. are recognized as expansions.
+    if (valid_symbols[EXPANSION_PERCENT] && valid_symbols[BARE_STRING_CONTENT] && s->stack_size > 0) {
+        if (lexer->lookahead == '%') {
+            if (scan_percent_start(s, lexer, valid_symbols, true)) return true;
+        }
+    }
+
     // Inside a string, scan content first (no whitespace skipping — content is verbatim)
     if (valid_symbols[BARE_STRING_CONTENT] && s->stack_size > 0) {
-        if (scan_bare_content(s, lexer)) return true;
+        if (scan_bare_content(s, lexer, valid_symbols[EXPANSION_PERCENT])) return true;
     }
 
     // Check for closing delimiter (no whitespace skipping)
