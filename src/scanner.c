@@ -122,21 +122,40 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion
         // In block body mode, stop before %alpha (expansion start like %sh, %val).
         // Only when not inside quotes and at brace depth 0.
         if (stop_at_expansion && depth == 0 && !in_single_quote && !in_double_quote && c == '%') {
+            // Peek ahead to check for a valid expansion type followed by a delimiter.
+            // We need to verify this is really %sh{, %val{, etc. — not %s in printf.
             lexer->mark_end(lexer);
-            advance_scanner(lexer);
-            int32_t next = lexer->lookahead;
-            if ((next >= 'a' && next <= 'z') || (next >= 'A' && next <= 'Z')) {
-                // Confirmed expansion start — return content before %
-                // mark_end was set before %, so token ends before %
-                if (has_content) {
-                    lexer->result_symbol = BARE_STRING_CONTENT;
-                    return true;
+            advance_scanner(lexer); // past %
+            int32_t c1 = lexer->lookahead;
+            if ((c1 >= 'a' && c1 <= 'z') || (c1 >= 'A' && c1 <= 'Z')) {
+                // Scan the type keyword (up to 4 chars)
+                char type_buf[8] = {0};
+                int type_len = 0;
+                int32_t tc = c1;
+                while (type_len < 7 && ((tc >= 'a' && tc <= 'z') || (tc >= 'A' && tc <= 'Z'))) {
+                    type_buf[type_len++] = (char)tc;
+                    advance_scanner(lexer);
+                    tc = lexer->lookahead;
                 }
-                // % is first char — can't return empty content.
-                // Return false; the early expansion check will handle it.
-                return false;
+                // Check if type is a known expansion AND followed by a delimiter
+                bool known_type = (strcmp(type_buf, "sh") == 0 || strcmp(type_buf, "val") == 0 ||
+                                   strcmp(type_buf, "opt") == 0 || strcmp(type_buf, "reg") == 0 ||
+                                   strcmp(type_buf, "arg") == 0 || strcmp(type_buf, "file") == 0 ||
+                                   strcmp(type_buf, "exp") == 0);
+                bool has_delim = (tc == '{' || tc == '[' || tc == '(' || tc == '<' ||
+                                  (tc != ' ' && tc != '\t' && tc != '\n' && tc != '\r' &&
+                                   !((tc >= 'a' && tc <= 'z') || (tc >= 'A' && tc <= 'Z') ||
+                                     (tc >= '0' && tc <= '9'))));
+                if (known_type && has_delim) {
+                    // Confirmed expansion — return content before %
+                    if (has_content) {
+                        lexer->result_symbol = BARE_STRING_CONTENT;
+                        return true;
+                    }
+                    return false;
+                }
             }
-            // Not an expansion — consume % as content
+            // Not a valid expansion — consume % (and any peeked chars) as content
             has_content = true;
             lexer->mark_end(lexer);
             continue;
