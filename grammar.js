@@ -92,6 +92,7 @@ module.exports = grammar({
       'hook',
       repeat(alias($._keyword_switch, $.switch)),
       field('scope', $.scope),
+      repeat(alias($._keyword_switch, $.switch)),
       field('name', $.word),
       field('filter', $.argument),
       field('body', $._block),
@@ -275,7 +276,7 @@ module.exports = grammar({
 
     complete_command: $ => prec(1, seq(
       'complete-command',
-      repeat(alias($._keyword_switch, $.switch)),
+      repeat(alias($._flag_switch, $.switch)),
       field('name', $.word),
       field('type', alias($.word, $.completion_type)),
       optional(field('param', $.argument)),
