@@ -359,6 +359,18 @@
               "type": "SYMBOL",
               "name": "argument"
             }
+          },
+          {
+            "type": "REPEAT",
+            "content": {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_keyword_switch"
+              },
+              "named": true,
+              "value": "switch"
+            }
           }
         ]
       }

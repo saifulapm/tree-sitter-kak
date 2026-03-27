@@ -104,6 +104,7 @@ module.exports = grammar({
       field('key', $.argument),
       repeat(alias($._keyword_switch, $.switch)),
       field('keys', $.argument),
+      repeat(alias($._keyword_switch, $.switch)),
     )),
 
     unmap_definition: $ => prec(1, seq(
