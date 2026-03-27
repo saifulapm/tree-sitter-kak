@@ -12,10 +12,8 @@ hook global WinCreate .* %{echo hello}
     name: (word)
     filter: (argument
       (word))
-    body: (kak_block
-      (echo_command
-        (argument
-          (word))))))
+    body: (percent_string
+      content: (string_content))))
 
 ==================
 Hook with group switch
@@ -33,10 +31,8 @@ hook -group my-hooks global BufSetOption filetype=python %{echo py}
     name: (word)
     filter: (argument
       (word))
-    body: (kak_block
-      (echo_command
-        (argument
-          (word))))))
+    body: (percent_string
+      content: (string_content))))
 
 ==================
 Buffer scope hook
@@ -52,7 +48,5 @@ hook buffer InsertChar \n %{echo newline}
     name: (word)
     filter: (argument
       (word))
-    body: (kak_block
-      (echo_command
-        (argument
-          (word))))))
+    body: (percent_string
+      content: (string_content))))

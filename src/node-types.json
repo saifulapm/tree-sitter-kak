@@ -166,6 +166,52 @@
     "fields": {}
   },
   {
+    "type": "complete_command",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "word",
+            "named": true
+          }
+        ]
+      },
+      "param": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "argument",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "completion_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "switch",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "concatenation",
     "named": true,
     "fields": {},
@@ -713,6 +759,10 @@
         },
         {
           "type": "command",
+          "named": true
+        },
+        {
+          "type": "complete_command",
           "named": true
         },
         {
@@ -1398,6 +1448,14 @@
   {
     "type": "catch",
     "named": false
+  },
+  {
+    "type": "complete-command",
+    "named": false
+  },
+  {
+    "type": "completion_type",
+    "named": true
   },
   {
     "type": "completions",

@@ -335,13 +335,7 @@ bool tree_sitter_kak_external_scanner_scan(void *payload, TSLexer *lexer, const 
     // and there's no whitespace between current position and that char.
     if (valid_symbols[CONCAT]) {
         int32_t c = lexer->lookahead;
-        // Skip CONCAT if the next char is the closing delimiter of the current block.
-        // We detect kak_block context by stack_size > 0 and BARE_STRING_CONTENT not valid
-        // (percent_string uses BARE_STRING_CONTENT, kak_block does not).
-        bool in_kak_block = s->stack_size > 0 && !valid_symbols[BARE_STRING_CONTENT];
-        bool is_closing_delim = in_kak_block && c == s->delimiter_stack[s->stack_size - 1];
-        if (!is_closing_delim &&
-            !(c == 0 || c == ' ' || c == '\t' || c == '\n' || c == '\r' ||
+        if (!(c == 0 || c == ' ' || c == '\t' || c == '\n' || c == '\r' ||
               c == ';' || c == '#' || lexer->eof(lexer))) {
             lexer->result_symbol = CONCAT;
             return true;
@@ -358,15 +352,8 @@ bool tree_sitter_kak_external_scanner_scan(void *payload, TSLexer *lexer, const 
         if (scan_bare_content(s, lexer)) return true;
     }
 
-    // Check for closing delimiter
+    // Check for closing delimiter (no whitespace skipping)
     if ((valid_symbols[PERCENT_STRING_END] || valid_symbols[NONBALANCED_STRING_END]) && s->stack_size > 0) {
-        // In kak_block context (no BARE_STRING_CONTENT), skip whitespace before checking
-        // the closing delimiter, since whitespace is extras in kak_block but content in percent_string.
-        if (!valid_symbols[BARE_STRING_CONTENT]) {
-            while (lexer->lookahead == ' ' || lexer->lookahead == '\t' || lexer->lookahead == '\r') {
-                skip_scanner(lexer);
-            }
-        }
         if (scan_percent_end(s, lexer)) return true;
     }
 
