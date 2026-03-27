@@ -44,9 +44,8 @@
 (single_quoted_string) @string
 (double_quoted_string) @string
 
-; Percent strings and block bodies
+; Percent strings
 (percent_string) @string
-(block_body) @string
 
 ; Expansions
 (expansion_type) @keyword.directive
