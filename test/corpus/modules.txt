@@ -36,3 +36,31 @@ source /path/to/file.kak
   (source_command
     filename: (argument
       (word))))
+
+==================
+Provide module with double-quoted string body
+==================
+
+provide-module my-module "echo hello"
+
+---
+
+(program
+  (provide_module
+    name: (word)
+    body: (double_quoted_string
+      (string_content))))
+
+==================
+Provide module with single-quoted string body
+==================
+
+provide-module my-module 'echo hello'
+
+---
+
+(program
+  (provide_module
+    name: (word)
+    body: (single_quoted_string
+      (string_content))))

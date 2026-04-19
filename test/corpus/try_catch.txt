@@ -57,3 +57,18 @@ try 'echo hello' catch 'echo error'
       (string_content))
     handler: (single_quoted_string
       (string_content))))
+
+==================
+Try with double-quoted block
+==================
+
+try "echo hello" catch "echo error"
+
+---
+
+(program
+  (try_statement
+    body: (double_quoted_string
+      (string_content))
+    handler: (double_quoted_string
+      (string_content))))

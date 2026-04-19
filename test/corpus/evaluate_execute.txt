@@ -54,3 +54,31 @@ execute-keys -draft giGl
     (switch)
     (argument
       (word))))
+
+==================
+Evaluate-commands with double-quoted string argument
+==================
+
+evaluate-commands "echo hello"
+
+---
+
+(program
+  (evaluate_commands
+    (argument
+      (double_quoted_string
+        (string_content)))))
+
+==================
+Evaluate-commands with single-quoted string argument
+==================
+
+evaluate-commands 'echo hello'
+
+---
+
+(program
+  (evaluate_commands
+    (argument
+      (single_quoted_string
+        (string_content)))))

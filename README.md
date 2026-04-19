@@ -23,12 +23,39 @@ Parses 100% of Kakoune's own `rc/` scripts (167/167 files) without errors.
 | File | Purpose |
 |------|---------|
 | `queries/highlights.scm` | Syntax highlighting |
-| `queries/injections.scm` | `%sh{...}` bash injection |
+| `queries/injections.scm` | Bash and kak self-injection (see below) |
 | `queries/locals.scm` | Definition tracking |
 | `queries/tags.scm` | Symbol navigation |
 | `queries/textobjects.scm` | Text objects (Helix) |
 | `queries/indents.scm` | Auto-indentation (Helix) |
 | `queries/folds.scm` | Code folding (Neovim) |
+
+## Injections
+
+Kakscript accepts command bodies in several equivalent forms — balanced
+percent-strings (`%{...}`), non-balanced percent-strings (`%|...|`),
+single-quoted strings (`'...'`), and double-quoted strings (`"..."`). The
+outer grammar treats each body as a single string node, so tools that walk
+only the primary parse tree will see an opaque block. `queries/injections.scm`
+re-parses the body as kak for the following commands:
+
+| Command | Body field(s) |
+|---------|---------------|
+| `try` / `catch` | `body`, `handler` |
+| `hook` | `body` |
+| `define-command` | `body` |
+| `provide-module` | `body` |
+| `prompt` | `body` |
+| `on-key` | `body` |
+| `evaluate-commands` | each `argument` |
+
+All four string forms are covered. Shell code in `%sh{...}` expansions is
+injected as bash.
+
+Tools that consume these queries (e.g. symbol search, LSP-style navigation,
+syntax highlighters) need to walk the injection tree to find symbols defined
+inside these bodies — otherwise nested `define-command`s, hooks, etc. inside
+a `provide-module` body will appear missing.
 
 ## Development
 
@@ -49,7 +76,7 @@ tree-sitter generate
 ### Test
 
 ```sh
-tree-sitter test    # 99 grammar tests
+tree-sitter test    # 112 grammar tests
 pnpm test           # Node binding tests
 cargo test          # Rust binding tests
 ```

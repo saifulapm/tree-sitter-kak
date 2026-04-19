@@ -369,3 +369,89 @@ source /path/to/file.kak arg1 arg2
       (word))
     (argument
       (word))))
+
+==================
+Define-command with double-quoted string body
+==================
+
+define-command greet "echo hello"
+
+---
+
+(program
+  (define_command
+    name: (command_name)
+    body: (double_quoted_string
+      (string_content))))
+
+==================
+Define-command with single-quoted string body
+==================
+
+define-command greet 'echo hello'
+
+---
+
+(program
+  (define_command
+    name: (command_name)
+    body: (single_quoted_string
+      (string_content))))
+
+==================
+Prompt with double-quoted string body
+==================
+
+prompt 'search: ' "echo hello"
+
+---
+
+(program
+  (prompt_command
+    text: (argument
+      (single_quoted_string
+        (string_content)))
+    body: (double_quoted_string
+      (string_content))))
+
+==================
+Prompt with single-quoted string body
+==================
+
+prompt 'search: ' 'echo hello'
+
+---
+
+(program
+  (prompt_command
+    text: (argument
+      (single_quoted_string
+        (string_content)))
+    body: (single_quoted_string
+      (string_content))))
+
+==================
+On-key with double-quoted string body
+==================
+
+on-key "echo hello"
+
+---
+
+(program
+  (on_key_command
+    body: (double_quoted_string
+      (string_content))))
+
+==================
+On-key with single-quoted string body
+==================
+
+on-key 'echo hello'
+
+---
+
+(program
+  (on_key_command
+    body: (single_quoted_string
+      (string_content))))

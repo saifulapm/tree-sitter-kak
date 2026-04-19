@@ -49,6 +49,30 @@
   (#set! injection.language "kak")
   (#set! injection.include-children))
 
+(try_statement
+  body: (single_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(try_statement
+  body: (double_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(try_statement
+  handler: (single_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(try_statement
+  handler: (double_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
 (hook_definition
   body: (block_body
     (string_content) @injection.content)
@@ -58,6 +82,18 @@
 (hook_definition
   body: (expansion
     content: (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(hook_definition
+  body: (single_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(hook_definition
+  body: (double_quoted_string
+    (string_content) @injection.content)
   (#set! injection.language "kak")
   (#set! injection.include-children))
 
@@ -73,6 +109,18 @@
   (#set! injection.language "kak")
   (#set! injection.include-children))
 
+(define_command
+  body: (single_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(define_command
+  body: (double_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
 (provide_module
   body: (block_body
     (string_content) @injection.content)
@@ -82,6 +130,18 @@
 (provide_module
   body: (expansion
     content: (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(provide_module
+  body: (single_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(provide_module
+  body: (double_quoted_string
+    (string_content) @injection.content)
   (#set! injection.language "kak")
   (#set! injection.include-children))
 
@@ -99,6 +159,20 @@
   (#set! injection.language "kak")
   (#set! injection.include-children))
 
+(evaluate_commands
+  (argument
+    (single_quoted_string
+      (string_content) @injection.content))
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(evaluate_commands
+  (argument
+    (double_quoted_string
+      (string_content) @injection.content))
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
 (prompt_command
   body: (block_body
     (string_content) @injection.content)
@@ -111,6 +185,18 @@
   (#set! injection.language "kak")
   (#set! injection.include-children))
 
+(prompt_command
+  body: (single_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(prompt_command
+  body: (double_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
 (on_key_command
   body: (block_body
     (string_content) @injection.content)
@@ -120,5 +206,17 @@
 (on_key_command
   body: (expansion
     content: (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(on_key_command
+  body: (single_quoted_string
+    (string_content) @injection.content)
+  (#set! injection.language "kak")
+  (#set! injection.include-children))
+
+(on_key_command
+  body: (double_quoted_string
+    (string_content) @injection.content)
   (#set! injection.language "kak")
   (#set! injection.include-children))

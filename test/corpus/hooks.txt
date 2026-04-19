@@ -50,3 +50,37 @@ hook buffer InsertChar \n %{echo newline}
       (word))
     body: (block_body
       (string_content))))
+
+==================
+Hook with double-quoted string body
+==================
+
+hook global WinCreate .* "echo hello"
+
+---
+
+(program
+  (hook_definition
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (double_quoted_string
+      (string_content))))
+
+==================
+Hook with single-quoted string body
+==================
+
+hook global WinCreate .* 'echo hello'
+
+---
+
+(program
+  (hook_definition
+    scope: (scope)
+    name: (word)
+    filter: (argument
+      (word))
+    body: (single_quoted_string
+      (string_content))))
