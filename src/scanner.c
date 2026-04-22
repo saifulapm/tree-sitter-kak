@@ -116,20 +116,41 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion
     int depth = stop_at_expansion ? s->block_body_depth : 0;
     bool in_single_quote = false;
     bool in_double_quote = false;
+    // Line-comment state: '#' starts a comment when it appears at a token boundary
+    // (start of content, after whitespace, or after newline). Comments run to EOL
+    // and must suppress quote/expansion detection so e.g. `# %val{x}` isn't
+    // mistaken for an expansion.
+    bool in_line_comment = false;
+    bool at_token_boundary = true;
 
     while (!lexer->eof(lexer)) {
         int32_t c = lexer->lookahead;
 
-        // Track quote state within content
-        if (c == '\'' && !in_double_quote) {
-            in_single_quote = !in_single_quote;
-        } else if (c == '"' && !in_single_quote) {
-            in_double_quote = !in_double_quote;
+        if (in_line_comment) {
+            if (c == '\n') {
+                in_line_comment = false;
+            }
+            // Skip quote & expansion logic; fall through to delimiter/advance block.
+        } else {
+            // Enter line comment on '#' at a token boundary (only when block-body-like).
+            if (stop_at_expansion && c == '#' && at_token_boundary &&
+                !in_single_quote && !in_double_quote) {
+                in_line_comment = true;
+            } else {
+                // Track quote state within content
+                if (c == '\'' && !in_double_quote) {
+                    in_single_quote = !in_single_quote;
+                } else if (c == '"' && !in_single_quote) {
+                    in_double_quote = !in_double_quote;
+                }
+            }
         }
+        // Next char is at a token boundary iff current is whitespace/newline.
+        at_token_boundary = (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 
         // In block body mode, stop before %alpha (expansion start like %sh, %val).
-        // Only when not inside quotes and at brace depth 0.
-        if (stop_at_expansion && !in_single_quote && !in_double_quote && c == '%') {
+        // Only when not inside quotes, not in a comment, and at brace depth 0.
+        if (stop_at_expansion && !in_line_comment && !in_single_quote && !in_double_quote && c == '%') {
             // Peek ahead to check for a valid expansion type followed by a delimiter.
             // We need to verify this is really %sh{, %val{, etc. — not %s in printf.
             lexer->mark_end(lexer);
@@ -150,8 +171,11 @@ static bool scan_bare_content(Scanner *s, TSLexer *lexer, bool stop_at_expansion
                                    strcmp(type_buf, "opt") == 0 || strcmp(type_buf, "reg") == 0 ||
                                    strcmp(type_buf, "arg") == 0 || strcmp(type_buf, "file") == 0 ||
                                    strcmp(type_buf, "exp") == 0);
+                // Must match scan_expansion_delim_start — reject %, whitespace, alphanumeric.
+                // Otherwise we commit to an expansion that the delim scanner can't open.
                 bool has_delim = (tc == '{' || tc == '[' || tc == '(' || tc == '<' ||
                                   (tc != ' ' && tc != '\t' && tc != '\n' && tc != '\r' &&
+                                   tc != '%' &&
                                    !((tc >= 'a' && tc <= 'z') || (tc >= 'A' && tc <= 'Z') ||
                                      (tc >= '0' && tc <= '9'))));
                 if (known_type && has_delim) {

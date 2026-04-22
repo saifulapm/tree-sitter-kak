@@ -167,3 +167,42 @@ info %val[bufname]
       (expansion
         type: (expansion_type)
         content: (string_content)))))
+
+==================
+Block body with %% followed by opt in shell body
+==================
+
+define-command foo %{
+    evaluate-commands %sh{
+        printf 'set-register z %%opt%s\n' "$1"
+    }
+}
+
+---
+
+(program
+  (define_command
+    name: (command_name)
+    body: (block_body
+      (string_content)
+      (expansion
+        type: (expansion_type)
+        content: (string_content))
+      (string_content))))
+
+==================
+Expansion inside line comment is not an expansion
+==================
+
+define-command foo %{
+    # we iterate %val{buflist} via the quoted form
+    echo done
+}
+
+---
+
+(program
+  (define_command
+    name: (command_name)
+    body: (block_body
+      (string_content))))
